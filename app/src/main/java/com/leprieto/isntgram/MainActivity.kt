@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,6 +29,8 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -58,11 +61,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             IsntGramTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = { BottomNavigationBar() }
+                )
+                { innerPadding ->
 //                    Greeting(
 //                        name = "Android", modifier = Modifier.padding(innerPadding)
 //                    )
                     MainComposable(modifier = Modifier.padding(innerPadding))
+
                 }
             }
         }
@@ -146,7 +152,7 @@ fun Body() {
                 shape = RoundedCornerShape(12.dp),
                 onClick = {}
             ) {
-                Text("Edit profile")
+                Text("Share profile")
             }
             Spacer(modifier = Modifier.size(8.dp))
             FilledTonalButton(
@@ -210,11 +216,83 @@ fun Body() {
             )
         }
 
+
         when (selectedTab) {
             0 -> Dashboard()
             1 -> Reels()
             2 -> Tagged()
         }
+    }
+
+
+}
+
+@Composable
+@Preview
+private fun BottomNavigationBar() {
+    var selectedItem by remember { mutableIntStateOf(4) }
+    NavigationBar(modifier = Modifier.height(60.dp)) {
+        NavigationBarItem(
+            selected = selectedItem == 0,
+            onClick = { selectedItem = 0 },
+            icon = {
+
+                Icon(
+                    painter = painterResource(R.drawable.home),
+                    contentDescription = "Add image",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        )
+        NavigationBarItem(
+            selected = selectedItem == 1,
+            onClick = { selectedItem = 1 },
+            icon = {
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_search),
+                    contentDescription = "Add image",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        )
+        NavigationBarItem(
+            selected = selectedItem == 2,
+            onClick = { selectedItem = 2 },
+            icon = {
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_action_name),
+                    contentDescription = "Add image",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        )
+        NavigationBarItem(
+            selected = selectedItem == 3,
+            onClick = { selectedItem = 3 },
+            icon = {
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_reels),
+                    contentDescription = "Add image",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        )
+        NavigationBarItem(
+            selected = selectedItem == 4,
+            onClick = { selectedItem = 4 },
+            icon = {
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_person),
+                    contentDescription = "Add image",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        )
+
     }
 }
 
@@ -268,7 +346,7 @@ fun ProfileNumberIndicator(number: Int, text: String) {
 fun ProfileTopBar() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(horizontal = 12.dp).padding(top = 12.dp)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_lock),
