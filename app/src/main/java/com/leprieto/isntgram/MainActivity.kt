@@ -64,9 +64,6 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = { BottomNavigationBar() }
                 )
                 { innerPadding ->
-//                    Greeting(
-//                        name = "Android", modifier = Modifier.padding(innerPadding)
-//                    )
                     MainComposable(modifier = Modifier.padding(innerPadding))
 
                 }
@@ -81,15 +78,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!", modifier = modifier
     )
 }
-
-////@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    IsntGramTheme {
-//        Greeting("Android")
-//    }
-//}
-
 
 @Composable
 @Preview(showBackground = true)
@@ -382,4 +370,3 @@ fun ProfileTopBar() {
         )
     }
 }
-
