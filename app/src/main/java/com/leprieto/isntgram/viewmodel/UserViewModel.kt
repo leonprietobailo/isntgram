@@ -27,4 +27,10 @@ class UserViewModel : ViewModel() {
         loadUsers()
         return _users.value!!.filter { it.id.startsWith(startsWith) }
     }
+
+    fun getProfile(id: String): User {
+        // TODO: Remove this call.
+        loadUsers()
+        return users.value!!.find { it.id == id }!!
+    }
 }

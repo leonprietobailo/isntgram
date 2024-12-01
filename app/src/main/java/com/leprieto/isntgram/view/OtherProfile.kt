@@ -36,26 +36,30 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
+import com.leprieto.isntgram.model.User
+import com.leprieto.isntgram.viewmodel.UserViewModel
 
 
 @Composable
-@Preview(showBackground = true)
-fun ProfileMainComposable(modifier: Modifier = Modifier.padding(12.dp)) {
+fun OtherProfileMainComposable(
+    modifier: Modifier = Modifier.padding(12.dp),
+    userViewModel: UserViewModel,
+    profileId: String
+) {
+    val user: User = userViewModel.getProfile(profileId)
     Column(modifier = modifier) {
-        ProfileTopBar()
-        Body()
+        ProfileTopBar(user = user)
+        Body(user = user)
     }
 }
 
 @Composable
-private fun ProfileTopBar() {
+private fun ProfileTopBar(user: User) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -68,7 +72,7 @@ private fun ProfileTopBar() {
             modifier = Modifier.size(32.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text("omegaisugly", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(user.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
@@ -80,8 +84,7 @@ private fun ProfileTopBar() {
 }
 
 @Composable
-@Preview
-private fun Body() {
+private fun Body(user: User) {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -102,18 +105,18 @@ private fun Body() {
                     .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileNumberIndicator(2, "posts")
-                ProfileNumberIndicator(1143, "followers")
-                ProfileNumberIndicator(727, "following")
+                ProfileNumberIndicator(user.posts, "posts")
+                ProfileNumberIndicator(user.followers, "followers")
+                ProfileNumberIndicator(user.following, "following")
             }
         }
         Text(
-            "León Prieto", fontSize = 12.sp, modifier = Modifier.padding(
+            user.name, fontSize = 12.sp, modifier = Modifier.padding(
                 top = 12.dp
             ), fontWeight = FontWeight.Bold
         )
         Text(
-            stringResource(R.string.lorem_ipsum), fontSize = 12.sp
+            user.description, fontSize = 12.sp
 
         )
 
