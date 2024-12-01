@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
 fun Screen(name: String) {
     when (name) {
         NVC.HOME.screen -> DummyScreen(name)
-        NVC.SEARCH.screen -> DummyScreen(name)
+        NVC.SEARCH.screen -> SearchMainComposable()
         NVC.ADD.screen -> DummyScreen(name)
         NVC.REELS.screen -> DummyScreen(name)
         NVC.PROFILE.screen -> ProfileMainComposable()

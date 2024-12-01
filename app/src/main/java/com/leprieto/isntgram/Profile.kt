@@ -98,6 +98,7 @@ private fun ProfileTopBar() {
 }
 
 @Composable
+@Preview
 private fun Body() {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
