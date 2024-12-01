@@ -1,4 +1,4 @@
-package com.leprieto.isntgram
+package com.leprieto.isntgram.view
 
 //import androidx.compose.foundation.layout.FlowRowScopeInstance.align
 
@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -25,10 +26,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.leprieto.isntgram.R
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
-import com.leprieto.isntgram.NavigationControllerValues as NVC
+import com.leprieto.isntgram.viewmodel.UserViewModel
+import com.leprieto.isntgram.view.NavigationControllerValues as NVC
 
 class MainActivity : ComponentActivity() {
+
+    private val userViewModel: UserViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,11 +51,36 @@ class MainActivity : ComponentActivity() {
                         startDestination = NVC.HOME.screen,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(NVC.HOME.screen) { Screen(NVC.HOME.screen) }
-                        composable(NVC.SEARCH.screen) { Screen(NVC.SEARCH.screen) }
-                        composable(NVC.ADD.screen) { Screen(NVC.ADD.screen) }
-                        composable(NVC.REELS.screen) { Screen(NVC.REELS.screen) }
-                        composable(NVC.PROFILE.screen) { Screen(NVC.PROFILE.screen) }
+                        composable(NVC.HOME.screen) {
+                            Screen(
+                                NVC.HOME.screen,
+                                userViewModel = userViewModel
+                            )
+                        }
+                        composable(NVC.SEARCH.screen) {
+                            Screen(
+                                NVC.SEARCH.screen,
+                                userViewModel = userViewModel
+                            )
+                        }
+                        composable(NVC.ADD.screen) {
+                            Screen(
+                                NVC.ADD.screen,
+                                userViewModel = userViewModel
+                            )
+                        }
+                        composable(NVC.REELS.screen) {
+                            Screen(
+                                NVC.REELS.screen,
+                                userViewModel = userViewModel
+                            )
+                        }
+                        composable(NVC.PROFILE.screen) {
+                            Screen(
+                                NVC.PROFILE.screen,
+                                userViewModel = userViewModel
+                            )
+                        }
                     }
                 }
             }
@@ -58,10 +89,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Screen(name: String) {
+fun Screen(name: String, userViewModel: UserViewModel) {
     when (name) {
         NVC.HOME.screen -> DummyScreen(name)
-        NVC.SEARCH.screen -> SearchMainComposable()
+        NVC.SEARCH.screen -> SearchMainComposable(userViewModel = userViewModel)
         NVC.ADD.screen -> DummyScreen(name)
         NVC.REELS.screen -> DummyScreen(name)
         NVC.PROFILE.screen -> SelfProfileMainComposable()
