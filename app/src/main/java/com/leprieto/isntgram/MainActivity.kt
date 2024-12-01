@@ -1,59 +1,32 @@
 package com.leprieto.isntgram
 
 //import androidx.compose.foundation.layout.FlowRowScopeInstance.align
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells.Fixed
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
+import com.leprieto.isntgram.NavigationControllerValues as NVC
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,11 +34,23 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             IsntGramTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = { BottomNavigationBar() }
+                val navController = rememberNavController()
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = { BottomNavigationBar(navController) }
                 )
                 { innerPadding ->
-                    MainComposable(modifier = Modifier.padding(innerPadding))
-
+                    NavHost(
+                        navController = navController,
+                        startDestination = NVC.HOME.screen,
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        composable(NVC.HOME.screen) { Screen(NVC.HOME.screen) }
+                        composable(NVC.SEARCH.screen) { Screen(NVC.SEARCH.screen) }
+                        composable(NVC.ADD.screen) { Screen(NVC.ADD.screen) }
+                        composable(NVC.REELS.screen) { Screen(NVC.REELS.screen) }
+                        composable(NVC.PROFILE.screen) { Screen(NVC.PROFILE.screen) }
+                    }
                 }
             }
         }
@@ -73,300 +58,82 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!", modifier = modifier
-    )
-}
-
-@Composable
-@Preview(showBackground = true)
-fun MainComposable(modifier: Modifier = Modifier.padding(12.dp)) {
-    Column(modifier = modifier) {
-        ProfileTopBar()
-        Body()
+fun Screen(name: String) {
+    when (name) {
+        NVC.HOME.screen -> DummyScreen(name)
+        NVC.SEARCH.screen -> DummyScreen(name)
+        NVC.ADD.screen -> DummyScreen(name)
+        NVC.REELS.screen -> DummyScreen(name)
+        NVC.PROFILE.screen -> ProfileMainComposable()
     }
 }
 
-
 @Composable
-fun Body() {
-    Column(modifier = Modifier.padding(12.dp)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding()
-        ) {
-            Image(
-                modifier = Modifier
-                    .size(72.dp)
-                    .clip(CircleShape)
-                    .border(BorderStroke(2.dp, Color.Gray), CircleShape),
-                painter = painterResource(id = R.drawable.ic_person),
-                contentDescription = "Profile Picture",
-
-                )
-            Row(
-                modifier = Modifier
-                    .weight(3f)
-                    .padding(20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                ProfileNumberIndicator(2, "posts")
-                ProfileNumberIndicator(1143, "followers")
-                ProfileNumberIndicator(727, "following")
-            }
-        }
-        Text(
-            "León Prieto", fontSize = 12.sp, modifier = Modifier.padding(
-                top = 12.dp
-            ), fontWeight = FontWeight.Bold
-        )
-        Text(
-            stringResource(R.string.lorem_ipsum), fontSize = 12.sp
-
-        )
-
-        Row(modifier = Modifier.padding(vertical = 12.dp)) {
-            FilledTonalButton(
-                modifier = Modifier.weight(4f),
-                shape = RoundedCornerShape(12.dp),
-                onClick = {}
-            ) {
-                Text("Edit profile")
-            }
-            Spacer(modifier = Modifier.size(8.dp))
-            FilledTonalButton(
-                modifier = Modifier.weight(4f),
-                shape = RoundedCornerShape(12.dp),
-                onClick = {}
-            ) {
-                Text("Share profile")
-            }
-            Spacer(modifier = Modifier.size(8.dp))
-            FilledTonalButton(
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(12.dp),
-                contentPadding = PaddingValues(0.dp),
-                onClick = {}
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add_person),
-                    contentDescription = "Add image",
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-        }
-
-        var selectedTab by remember { mutableIntStateOf(0) }
-
-        TabRow(
-            selectedTabIndex = selectedTab,
-
-            ) {
-            Tab(
-                selected = selectedTab == 0,
-                onClick = { selectedTab = 0 },
-                content = {
-                    Box(modifier = Modifier.padding(16.dp)) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_dashboard),
-                            contentDescription = "",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-            )
-            Tab(
-                selected = selectedTab == 1,
-                onClick = { selectedTab = 1 },
-                content = {
-                    Box(modifier = Modifier.padding(16.dp)) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_reels),
-                            contentDescription = "",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-            )
-            Tab(
-                selected = selectedTab == 2,
-                onClick = { selectedTab = 2 },
-                content = {
-                    Box(modifier = Modifier.padding(16.dp)) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_tagged),
-                            contentDescription = "",
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-            )
-        }
-
-
-        when (selectedTab) {
-            0 -> Dashboard()
-            1 -> Reels()
-            2 -> Tagged()
-        }
-    }
-
-
-}
-
-@Composable
-@Preview
-private fun BottomNavigationBar() {
-    var selectedItem by remember { mutableIntStateOf(4) }
+fun BottomNavigationBar(navController: NavController) {
     NavigationBar(modifier = Modifier.height(60.dp)) {
         NavigationBarItem(
-            selected = selectedItem == 0,
-            onClick = { selectedItem = 0 },
+            selected = navController.currentDestination?.route == NVC.HOME.screen,
+            onClick = { navController.navigate(NVC.HOME.screen) },
             icon = {
-
                 Icon(
                     painter = painterResource(R.drawable.home),
-                    contentDescription = "Add image",
+                    contentDescription = "Home",
                     modifier = Modifier.size(20.dp)
                 )
             }
         )
         NavigationBarItem(
-            selected = selectedItem == 1,
-            onClick = { selectedItem = 1 },
+            selected = navController.currentDestination?.route == NVC.SEARCH.screen,
+            onClick = { navController.navigate(NVC.SEARCH.screen) },
             icon = {
-
                 Icon(
                     painter = painterResource(R.drawable.ic_search),
-                    contentDescription = "Add image",
+                    contentDescription = "Search",
                     modifier = Modifier.size(20.dp)
                 )
             }
         )
         NavigationBarItem(
-            selected = selectedItem == 2,
-            onClick = { selectedItem = 2 },
+            selected = navController.currentDestination?.route == NVC.ADD.screen,
+            onClick = { navController.navigate(NVC.ADD.screen) },
             icon = {
-
                 Icon(
                     painter = painterResource(R.drawable.ic_action_name),
-                    contentDescription = "Add image",
+                    contentDescription = "Post",
                     modifier = Modifier.size(20.dp)
                 )
             }
         )
         NavigationBarItem(
-            selected = selectedItem == 3,
-            onClick = { selectedItem = 3 },
+            selected = navController.currentDestination?.route == NVC.REELS.screen,
+            onClick = { navController.navigate(NVC.REELS.screen) },
             icon = {
-
                 Icon(
                     painter = painterResource(R.drawable.ic_reels),
-                    contentDescription = "Add image",
+                    contentDescription = "Reels",
                     modifier = Modifier.size(20.dp)
                 )
             }
         )
         NavigationBarItem(
-            selected = selectedItem == 4,
-            onClick = { selectedItem = 4 },
+            selected = navController.currentDestination?.route == NVC.PROFILE.screen,
+            onClick = { navController.navigate(NVC.PROFILE.screen) },
             icon = {
-
                 Icon(
                     painter = painterResource(R.drawable.ic_person),
-                    contentDescription = "Add image",
+                    contentDescription = "Profile",
                     modifier = Modifier.size(20.dp)
                 )
             }
         )
-
     }
 }
 
 @Composable
-fun Dashboard() {
-    LazyVerticalGrid(
-        columns = Fixed(3),
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
-    ) {
-        items(700) {
-            Box(modifier = Modifier.aspectRatio(1f)) {
-                val picNumber = it + 1
-                AsyncImage(
-                    model = "https://yavuzceliker.github.io/sample-images/image-$picNumber.jpg",
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun Reels() {
-    Box() {
-        Text("ToDO")
-    }
-}
-
-@Composable
-fun Tagged() {
-    Box() {
-        Text("ToDO")
-    }
-}
-
-@Composable
-fun ProfileNumberIndicator(number: Int, text: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(number.toString(), fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Text(text)
+fun DummyScreen(name: String) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "$name dummy screen")
     }
 }
 
 
-//@Preview(showSystemUi = true, showBackground = true)
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ProfileTopBar() {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 12.dp).padding(top = 12.dp)
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_lock),
-            contentDescription = "Add image",
-            modifier = Modifier.size(16.dp),
-            tint = Color.Black
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text("omegaisugly", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-        Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            painter = painterResource(R.drawable.ic_threads),
-            contentDescription = "Add image",
-            modifier = Modifier.size(32.dp),
-            tint = Color.Black
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Icon(
-            painter = painterResource(R.drawable.ic_action_name),
-            contentDescription = "Add image",
-            modifier = Modifier
-                .size(32.dp)
-                .alpha(100f),
-            tint = Color.Black
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Icon(
-            imageVector = Icons.Default.Menu,
-            contentDescription = "Default Burger Menu",
-            modifier = Modifier.size(32.dp)
-        )
-    }
-}

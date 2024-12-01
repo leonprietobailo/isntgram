@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">IsntGram</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In accumsan magna tellus, a imperdiet nisi posuere sit amet. Fusce cursus sodales odio sed sollicitudin. Cras ullamcorper vel est et sodales. Nulla pretium condimentum urna, quis ultricies ante accumsan eu. In feugiat at sem eu bibendum. In tincidunt urna accumsan tincidunt consectetur. Morbi porttitor mattis lectus malesuada viverra.</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="add">Add</string>
+    <string name="reels">Reels</string>
+    <string name="profile">Profile</string>
 </resources>
