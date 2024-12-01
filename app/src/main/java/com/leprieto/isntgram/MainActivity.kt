@@ -64,7 +64,7 @@ fun Screen(name: String) {
         NVC.SEARCH.screen -> SearchMainComposable()
         NVC.ADD.screen -> DummyScreen(name)
         NVC.REELS.screen -> DummyScreen(name)
-        NVC.PROFILE.screen -> ProfileMainComposable()
+        NVC.PROFILE.screen -> SelfProfileMainComposable()
     }
 }
 
