@@ -1,37 +1,17 @@
 package com.leprieto.isntgram.model
 
-class UserRepository {
+import com.leprieto.isntgram.dao.UserDao
+import javax.inject.Inject
 
-    private val users = mutableListOf(
-        User(
-            id = "omegaisugly",
-            name = "León Prieto",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In accumsan magna tellus, a imperdiet nisi posuere sit amet. Fusce cursus sodales odio sed sollicitudin. Cras ullamcorper vel est et sodales. Nulla pretium condimentum urna, quis ultricies ante accumsan eu. In feugiat at sem eu bibendum. In tincidunt urna accumsan tincidunt consectetur. Morbi porttitor mattis lectus malesuada viverra.",
-            posts = 0,
-            followers = 0,
-            following = 0
-        ),
-        User(
-            id = "omegaisnkd",
-            name = "León 2",
-            description = "Secondary account",
-            posts = 1,
-            followers = 1,
-            following = 1
-        ),
-        User(
-            id = "mcubix",
-            name = "Axel",
-            description = "Just an ape",
-            posts = 1,
-            followers = 1,
-            following = 1
-        )
-    )
+class UserRepository @Inject constructor(private val userDao: UserDao) {
 
-    fun getUsers(): List<User> = users
-
-    fun addUser(user: User) {
-        users.add(user)
+    suspend fun insert(user: User) {
+        userDao.insert(user)
     }
+
+    suspend fun getByPk(userId: String): User? {
+        return userDao.getByPk(userId)
+    }
+    
+    suspend fun getAll(): List<User> = userDao.getAll()
 }

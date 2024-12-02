@@ -14,22 +14,22 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> get() = _users
 
-    private fun loadUsers() {
-        _users.value = userRepository.getUsers()
+    private suspend fun loadUsers() {
+        _users.value = userRepository.getAll()
     }
 
-    fun addUser(user: User) {
-        userRepository.addUser(user)
+    suspend fun addUser(user: User) {
+        userRepository.insert(user)
         loadUsers()
     }
 
-    fun getFilteredUsers(startsWith: String): List<User> {
+    suspend fun getFilteredUsers(startsWith: String): List<User> {
         // TODO: Remove this call.
         loadUsers()
         return _users.value!!.filter { it.id.startsWith(startsWith) }
     }
 
-    fun getProfile(id: String): User {
+    suspend fun getProfile(id: String): User {
         // TODO: Remove this call.
         loadUsers()
         return users.value!!.find { it.id == id }!!
