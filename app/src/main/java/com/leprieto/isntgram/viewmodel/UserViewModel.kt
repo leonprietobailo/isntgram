@@ -5,20 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.leprieto.isntgram.model.User
 import com.leprieto.isntgram.model.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class UserViewModel : ViewModel() {
-
-    private val repository = UserRepository()
+@HiltViewModel
+class UserViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> get() = _users
 
     private fun loadUsers() {
-        _users.value = repository.getUsers()
+        _users.value = userRepository.getUsers()
     }
 
     fun addUser(user: User) {
-        repository.addUser(user)
+        userRepository.addUser(user)
         loadUsers()
     }
 

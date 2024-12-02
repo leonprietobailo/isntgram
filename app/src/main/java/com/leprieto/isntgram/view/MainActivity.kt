@@ -32,13 +32,13 @@ import androidx.navigation.navArgument
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
 import com.leprieto.isntgram.viewmodel.UserViewModel
-import com.leprieto.isntgram.view.NavigationControllerBse as NVCBSE
-import com.leprieto.isntgram.view.NavigationControllerValues as NVC
+import dagger.hilt.android.AndroidEntryPoint
+import com.leprieto.isntgram.view.enums.NavigationControllerBse as NVCBSE
+import com.leprieto.isntgram.view.enums.NavigationControllerValues as NVC
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     private val userViewModel: UserViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

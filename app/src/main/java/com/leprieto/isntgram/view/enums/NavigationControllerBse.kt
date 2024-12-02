@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.view
+package com.leprieto.isntgram.view.enums
 
 enum class NavigationControllerBse(val screen: String) {
     OTHER_PROFILE("profile/{profileId}"),
