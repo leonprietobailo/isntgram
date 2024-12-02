@@ -1,4 +1,4 @@
-package com.leprieto.isntgram
+package com.leprieto.isntgram.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -19,7 +18,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
@@ -32,30 +32,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.leprieto.isntgram.R
+import com.leprieto.isntgram.model.User
+import com.leprieto.isntgram.viewmodel.UserViewModel
 
 
 @Composable
-@Preview(showBackground = true)
-fun SelfProfileMainComposable(modifier: Modifier = Modifier.padding(12.dp)) {
+fun OtherProfileMainComposable(
+    modifier: Modifier = Modifier.padding(12.dp),
+    userViewModel: UserViewModel,
+    profileId: String
+) {
+    val user: User = userViewModel.getProfile(profileId)
     Column(modifier = modifier) {
-        ProfileTopBar()
-        Body()
+        ProfileTopBar(user = user)
+        Body(user = user)
     }
 }
 
 @Composable
-private fun ProfileTopBar() {
+private fun ProfileTopBar(user: User) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -63,43 +67,24 @@ private fun ProfileTopBar() {
             .padding(top = 12.dp)
     ) {
         Icon(
-            painter = painterResource(R.drawable.ic_lock),
-            contentDescription = "Add image",
-            modifier = Modifier.size(16.dp),
-            tint = Color.Black
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = "Back",
+            modifier = Modifier.size(32.dp)
         )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text("omegaisugly", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(user.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            painter = painterResource(R.drawable.ic_threads),
-            contentDescription = "Add image",
-            modifier = Modifier.size(32.dp),
-            tint = Color.Black
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
 
         Icon(
-            painter = painterResource(R.drawable.ic_action_name),
-            contentDescription = "Add image",
-            modifier = Modifier
-                .size(32.dp)
-                .alpha(100f),
-            tint = Color.Black
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Icon(
-            imageVector = Icons.Default.Menu,
-            contentDescription = "Default Burger Menu",
+            imageVector = Icons.Default.MoreVert,
+            contentDescription = "Three-dot Menu",
             modifier = Modifier.size(32.dp)
         )
     }
 }
 
 @Composable
-@Preview
-private fun Body() {
+private fun Body(user: User) {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -120,18 +105,18 @@ private fun Body() {
                     .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileNumberIndicator(2, "posts")
-                ProfileNumberIndicator(1143, "followers")
-                ProfileNumberIndicator(727, "following")
+                ProfileNumberIndicator(user.posts, "posts")
+                ProfileNumberIndicator(user.followers, "followers")
+                ProfileNumberIndicator(user.following, "following")
             }
         }
         Text(
-            "León Prieto", fontSize = 12.sp, modifier = Modifier.padding(
+            user.name, fontSize = 12.sp, modifier = Modifier.padding(
                 top = 12.dp
             ), fontWeight = FontWeight.Bold
         )
         Text(
-            stringResource(R.string.lorem_ipsum), fontSize = 12.sp
+            user.description, fontSize = 12.sp
 
         )
 
@@ -141,7 +126,7 @@ private fun Body() {
                 shape = RoundedCornerShape(12.dp),
                 onClick = {}
             ) {
-                Text("Edit profile")
+                Text("Follow")
             }
             Spacer(modifier = Modifier.size(8.dp))
             FilledTonalButton(
@@ -149,20 +134,7 @@ private fun Body() {
                 shape = RoundedCornerShape(12.dp),
                 onClick = {}
             ) {
-                Text("Share profile")
-            }
-            Spacer(modifier = Modifier.size(8.dp))
-            FilledTonalButton(
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(12.dp),
-                contentPadding = PaddingValues(0.dp),
-                onClick = {}
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add_person),
-                    contentDescription = "Add image",
-                    modifier = Modifier.size(20.dp)
-                )
+                Text("Message")
             }
         }
 

@@ -1,9 +1,10 @@
-package com.leprieto.isntgram
+package com.leprieto.isntgram.view
 
 //import androidx.compose.foundation.layout.FlowRowScopeInstance.align
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,31 +31,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.leprieto.isntgram.R
+import com.leprieto.isntgram.model.User
+import com.leprieto.isntgram.viewmodel.UserViewModel
 
 @Composable
 @Preview(showSystemUi = true)
-fun SearchMainComposable(modifier: Modifier = Modifier.padding(12.dp)) {
-    TopBar(modifier)
-
+fun SearchMainComposable(
+    modifier: Modifier = Modifier.padding(12.dp),
+    userViewModel: UserViewModel,
+    navController: NavHostController
+) {
+    TopBar(modifier, userViewModel, navController)
 }
 
 @Composable
-private fun TopBar(modifier: Modifier) {
-    val items =
-        listOf(
-            "omegaisugly",
-            "omegaisnkd",
-            "sample",
-            "test",
-            "dummy",
-            "mcubix",
-            "ficherobsky",
-            "lola",
-            "loli",
-            "lolipop"
-        )
+private fun TopBar(
+    modifier: Modifier,
+    userViewModel: UserViewModel,
+    navController: NavHostController
+) {
     var searchedValue by remember { mutableStateOf("") }
-    var filteredItems by remember { mutableStateOf(items) }
+    var filteredItems by remember { mutableStateOf(userViewModel.getFilteredUsers("")) }
 
     Column {
         Row() {
@@ -63,10 +62,8 @@ private fun TopBar(modifier: Modifier) {
                 value = searchedValue,
                 onValueChange = { newValue ->
                     searchedValue = newValue
-                    filteredItems =
-                        items.filter {
-                            it.startsWith(searchedValue)
-                        }
+                    filteredItems = userViewModel.getFilteredUsers(startsWith = searchedValue)
+
                 },
                 placeholder = {
                     Text("Search")
@@ -83,18 +80,19 @@ private fun TopBar(modifier: Modifier) {
             items(
                 filteredItems,
             ) {
-                ResultEntry(it)
+                ResultEntry(it, navController)
             }
         }
     }
 }
 
 @Composable
-private fun ResultEntry(id: String) {
+private fun ResultEntry(user: User, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 6.dp),
+            .padding(bottom = 6.dp)
+            .clickable { navController.navigate("profile/${user.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -109,9 +107,9 @@ private fun ResultEntry(id: String) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold,
-                text = id
+                text = user.id
             )
-            Text(modifier = Modifier.padding(horizontal = 16.dp), text = id)
+            Text(modifier = Modifier.padding(horizontal = 16.dp), text = user.name)
         }
     }
 }
