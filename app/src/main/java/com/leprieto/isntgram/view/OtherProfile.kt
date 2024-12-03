@@ -20,12 +20,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -51,10 +53,19 @@ fun OtherProfileMainComposable(
     userViewModel: UserViewModel,
     profileId: String
 ) {
-    val user: User = userViewModel.getProfile(profileId)
-    Column(modifier = modifier) {
-        ProfileTopBar(user = user)
-        Body(user = user)
+    val user by userViewModel.getProfile(profileId).collectAsState()
+    if (user == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column(modifier = modifier) {
+            ProfileTopBar(user = user!!)
+            Body(user = user!!)
+        }
     }
 }
 
