@@ -43,17 +43,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.User
-import com.leprieto.isntgram.viewmodel.UserViewModel
+import com.leprieto.isntgram.model.RemoteUser
+import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
 
 @Composable
 fun OtherProfileMainComposable(
     modifier: Modifier = Modifier.padding(12.dp),
-    userViewModel: UserViewModel,
+    remoteUserViewModel: RemoteUserViewModel,
     profileId: String
 ) {
-    val user by userViewModel.getProfile(profileId).collectAsState()
+    val user by remoteUserViewModel.getProfile(profileId).collectAsState()
     if (user == null) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -63,14 +63,14 @@ fun OtherProfileMainComposable(
         }
     } else {
         Column(modifier = modifier) {
-            ProfileTopBar(user = user!!)
-            Body(user = user!!)
+            ProfileTopBar(remoteUser = user!!)
+            Body(remoteUser = user!!)
         }
     }
 }
 
 @Composable
-private fun ProfileTopBar(user: User) {
+private fun ProfileTopBar(remoteUser: RemoteUser) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -83,7 +83,7 @@ private fun ProfileTopBar(user: User) {
             modifier = Modifier.size(32.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(user.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(remoteUser.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
@@ -95,7 +95,7 @@ private fun ProfileTopBar(user: User) {
 }
 
 @Composable
-private fun Body(user: User) {
+private fun Body(remoteUser: RemoteUser) {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -116,18 +116,18 @@ private fun Body(user: User) {
                     .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileNumberIndicator(user.posts, "posts")
-                ProfileNumberIndicator(user.followers, "followers")
-                ProfileNumberIndicator(user.following, "following")
+                ProfileNumberIndicator(remoteUser.posts, "posts")
+                ProfileNumberIndicator(remoteUser.followers, "followers")
+                ProfileNumberIndicator(remoteUser.following, "following")
             }
         }
         Text(
-            user.name, fontSize = 12.sp, modifier = Modifier.padding(
+            remoteUser.name, fontSize = 12.sp, modifier = Modifier.padding(
                 top = 12.dp
             ), fontWeight = FontWeight.Bold
         )
         Text(
-            user.description, fontSize = 12.sp
+            remoteUser.description, fontSize = 12.sp
 
         )
 

@@ -29,30 +29,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.User
-import com.leprieto.isntgram.viewmodel.UserViewModel
+import com.leprieto.isntgram.model.RemoteUser
+import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
 @Composable
 fun SearchMainComposable(
     modifier: Modifier = Modifier.padding(12.dp),
-    userViewModel: UserViewModel,
+    remoteUserViewModel: RemoteUserViewModel,
     navController: NavHostController
 ) {
-    TopBar(modifier, userViewModel, navController)
+    TopBar(modifier, remoteUserViewModel, navController)
 }
 
 @Composable
 private fun TopBar(
     modifier: Modifier,
-    userViewModel: UserViewModel,
+    remoteUserViewModel: RemoteUserViewModel,
     navController: NavHostController
 ) {
     var searchedValue by remember { mutableStateOf("") }
-    var filteredItems by remember { mutableStateOf(userViewModel.users) }
+    var filteredItems by remember { mutableStateOf(remoteUserViewModel.users) }
 
     Column {
         Row() {
@@ -61,7 +60,7 @@ private fun TopBar(
                 value = searchedValue,
                 onValueChange = { newValue ->
                     searchedValue = newValue
-                    filteredItems = userViewModel.getFilteredUsers(startsWith = searchedValue)
+                    filteredItems = remoteUserViewModel.getFilteredUsers(startsWith = searchedValue)
 
                 },
                 placeholder = {
@@ -86,12 +85,12 @@ private fun TopBar(
 }
 
 @Composable
-private fun ResultEntry(user: User, navController: NavHostController) {
+private fun ResultEntry(remoteUser: RemoteUser, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 6.dp)
-            .clickable { navController.navigate("profile/${user.id}") },
+            .clickable { navController.navigate("profile/${remoteUser.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -106,9 +105,9 @@ private fun ResultEntry(user: User, navController: NavHostController) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold,
-                text = user.id
+                text = remoteUser.id
             )
-            Text(modifier = Modifier.padding(horizontal = 16.dp), text = user.name)
+            Text(modifier = Modifier.padding(horizontal = 16.dp), text = remoteUser.name)
         }
     }
 }

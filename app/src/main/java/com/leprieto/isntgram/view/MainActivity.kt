@@ -30,15 +30,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.leprieto.isntgram.R
+import com.leprieto.isntgram.model.RemoteUser
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
-import com.leprieto.isntgram.viewmodel.UserViewModel
+import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.leprieto.isntgram.view.enums.NavigationControllerBse as NVCBSE
 import com.leprieto.isntgram.view.enums.NavigationControllerValues as NVC
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val userViewModel: UserViewModel by viewModels()
+    private val remoteUserViewModel: RemoteUserViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -58,35 +59,35 @@ class MainActivity : ComponentActivity() {
                         composable(NVC.HOME.screen) {
                             Screen(
                                 NVC.HOME.screen,
-                                userViewModel = userViewModel,
+                                remoteUserViewModel = remoteUserViewModel,
                                 navController = navController
                             )
                         }
                         composable(NVC.SEARCH.screen) {
                             Screen(
                                 NVC.SEARCH.screen,
-                                userViewModel = userViewModel,
+                                remoteUserViewModel = remoteUserViewModel,
                                 navController
                             )
                         }
                         composable(NVC.ADD.screen) {
                             Screen(
                                 NVC.ADD.screen,
-                                userViewModel = userViewModel,
+                                remoteUserViewModel = remoteUserViewModel,
                                 navController
                             )
                         }
                         composable(NVC.REELS.screen) {
                             Screen(
                                 NVC.REELS.screen,
-                                userViewModel = userViewModel,
+                                remoteUserViewModel = remoteUserViewModel,
                                 navController
                             )
                         }
                         composable(NVC.PROFILE.screen) {
                             Screen(
                                 NVC.PROFILE.screen,
-                                userViewModel = userViewModel,
+                                remoteUserViewModel = remoteUserViewModel,
                                 navController
                             )
                         }
@@ -99,7 +100,7 @@ class MainActivity : ComponentActivity() {
                             val profileId =
                                 navBackStackEntry.arguments?.getString(NVCBSE.OTHER_PRFILE_ARGUMENT.screen)
                             OtherProfileMainComposable(
-                                userViewModel = userViewModel,
+                                remoteUserViewModel = remoteUserViewModel,
                                 profileId = profileId!!
                             )
                         }
@@ -111,16 +112,20 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Screen(name: String, userViewModel: UserViewModel, navController: NavHostController) {
+fun Screen(
+    name: String,
+    remoteUserViewModel: RemoteUserViewModel,
+    navController: NavHostController
+) {
     when (name) {
-        NVC.HOME.screen -> DummyScreen(name)
+        NVC.HOME.screen -> DummyScreen(name, remoteUserViewModel)
         NVC.SEARCH.screen -> SearchMainComposable(
-            userViewModel = userViewModel,
+            remoteUserViewModel = remoteUserViewModel,
             navController = navController
         )
 
-        NVC.ADD.screen -> DummyScreen(name)
-        NVC.REELS.screen -> DummyScreen(name)
+        NVC.ADD.screen -> DummyScreen(name, remoteUserViewModel)
+        NVC.REELS.screen -> DummyScreen(name, remoteUserViewModel)
         NVC.PROFILE.screen -> SelfProfileMainComposable()
     }
 }
@@ -187,7 +192,16 @@ fun BottomNavigationBar(navController: NavController) {
 }
 
 @Composable
-fun DummyScreen(name: String) {
+fun DummyScreen(name: String, remoteUserViewModel: RemoteUserViewModel) {
+    val newRemoteUser = RemoteUser(
+        id = Math.random().toString(),
+        description = "",
+        followers = 0,
+        following = 0,
+        posts = 0,
+        name = ""
+    )
+    remoteUserViewModel.addUser(newRemoteUser)
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "$name dummy screen")
     }

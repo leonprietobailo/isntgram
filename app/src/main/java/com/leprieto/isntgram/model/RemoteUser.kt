@@ -3,8 +3,8 @@ package com.leprieto.isntgram.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users")
-data class User(
+@Entity(tableName = "remote_users")
+data class RemoteUser(
     @PrimaryKey val id: String,
     val name: String,
     val description: String,
