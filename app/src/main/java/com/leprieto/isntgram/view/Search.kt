@@ -37,7 +37,6 @@ import com.leprieto.isntgram.model.User
 import com.leprieto.isntgram.viewmodel.UserViewModel
 
 @Composable
-@Preview(showSystemUi = true)
 fun SearchMainComposable(
     modifier: Modifier = Modifier.padding(12.dp),
     userViewModel: UserViewModel,
@@ -53,7 +52,7 @@ private fun TopBar(
     navController: NavHostController
 ) {
     var searchedValue by remember { mutableStateOf("") }
-    var filteredItems by remember { mutableStateOf(userViewModel.getFilteredUsers("")) }
+    var filteredItems by remember { mutableStateOf(userViewModel.users) }
 
     Column {
         Row() {
@@ -78,7 +77,7 @@ private fun TopBar(
         }
         LazyColumn(modifier = modifier.fillMaxWidth()) {
             items(
-                filteredItems,
+                filteredItems.value,
             ) {
                 ResultEntry(it, navController)
             }

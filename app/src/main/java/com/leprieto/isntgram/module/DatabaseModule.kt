@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.leprieto.isntgram.dao.UserDao
 import com.leprieto.isntgram.db.AppDatabase
+import com.leprieto.isntgram.model.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,9 @@ object DatabaseModule {
         return database.userDao()
     }
 
+    @Provides
+    @Singleton
+    fun provideUserRepository(userDao: UserDao): UserRepository {
+        return UserRepository(userDao)
+    }
 }
