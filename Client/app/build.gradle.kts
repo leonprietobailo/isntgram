@@ -61,10 +61,13 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.hilt.android)
 //    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.converter.moshi)
+    implementation(libs.logging.interceptor)
 
     kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)

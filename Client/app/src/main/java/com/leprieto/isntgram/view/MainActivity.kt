@@ -77,9 +77,9 @@ class MainActivity : ComponentActivity() {
                                 navController
                             )
                         }
-                        composable(NVC.REELS.screen) {
+                        composable(NVC.LOGIN.screen) {
                             Screen(
-                                NVC.REELS.screen,
+                                NVC.LOGIN.screen,
                                 remoteUserViewModel = remoteUserViewModel,
                                 navController
                             )
@@ -125,7 +125,7 @@ fun Screen(
         )
 
         NVC.ADD.screen -> DummyScreen(name, remoteUserViewModel)
-        NVC.REELS.screen -> DummyScreen(name, remoteUserViewModel)
+        NVC.LOGIN.screen -> DummyScreen(name, remoteUserViewModel)
         NVC.PROFILE.screen -> SelfProfileMainComposable()
     }
 }

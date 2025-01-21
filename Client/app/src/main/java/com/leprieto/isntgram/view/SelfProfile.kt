@@ -39,7 +39,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -47,7 +46,7 @@ import com.leprieto.isntgram.R
 
 
 @Composable
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 fun SelfProfileMainComposable(modifier: Modifier = Modifier.padding(12.dp)) {
     Column(modifier = modifier) {
         ProfileTopBar()
@@ -99,7 +98,7 @@ private fun ProfileTopBar() {
 }
 
 @Composable
-@Preview
+//@Preview
 private fun Body() {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
