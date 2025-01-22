@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.RemoteUser
+import com.leprieto.isntgram.model.UserDetails
 import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
 @Composable
@@ -85,12 +85,12 @@ private fun TopBar(
 }
 
 @Composable
-private fun ResultEntry(remoteUser: RemoteUser, navController: NavHostController) {
+private fun ResultEntry(userDetails: UserDetails, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 6.dp)
-            .clickable { navController.navigate("profile/${remoteUser.id}") },
+            .clickable { navController.navigate("profile/${userDetails.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -105,9 +105,9 @@ private fun ResultEntry(remoteUser: RemoteUser, navController: NavHostController
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold,
-                text = remoteUser.id
+                text = userDetails.id
             )
-            Text(modifier = Modifier.padding(horizontal = 16.dp), text = remoteUser.name)
+//            Text(modifier = Modifier.padding(horizontal = 16.dp), text = userDetails.name)
         }
     }
 }

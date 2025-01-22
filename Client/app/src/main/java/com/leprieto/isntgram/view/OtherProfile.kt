@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.RemoteUser
+import com.leprieto.isntgram.model.UserDetails
 import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
 
@@ -63,14 +63,14 @@ fun OtherProfileMainComposable(
         }
     } else {
         Column(modifier = modifier) {
-            ProfileTopBar(remoteUser = user!!)
-            Body(remoteUser = user!!)
+            ProfileTopBar(userDetails = user!!)
+            Body(userDetails = user!!)
         }
     }
 }
 
 @Composable
-private fun ProfileTopBar(remoteUser: RemoteUser) {
+private fun ProfileTopBar(userDetails: UserDetails) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -83,7 +83,7 @@ private fun ProfileTopBar(remoteUser: RemoteUser) {
             modifier = Modifier.size(32.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(remoteUser.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(userDetails.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
@@ -95,7 +95,7 @@ private fun ProfileTopBar(remoteUser: RemoteUser) {
 }
 
 @Composable
-private fun Body(remoteUser: RemoteUser) {
+private fun Body(userDetails: UserDetails) {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -116,20 +116,20 @@ private fun Body(remoteUser: RemoteUser) {
                     .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileNumberIndicator(remoteUser.posts, "posts")
-                ProfileNumberIndicator(remoteUser.followers, "followers")
-                ProfileNumberIndicator(remoteUser.following, "following")
+//                ProfileNumberIndicator(userDetails.posts, "posts")
+//                ProfileNumberIndicator(userDetails.followers, "followers")
+//                ProfileNumberIndicator(userDetails.following, "following")
             }
         }
-        Text(
-            remoteUser.name, fontSize = 12.sp, modifier = Modifier.padding(
-                top = 12.dp
-            ), fontWeight = FontWeight.Bold
-        )
-        Text(
-            remoteUser.description, fontSize = 12.sp
+//        Text(
+//            userDetails.name, fontSize = 12.sp, modifier = Modifier.padding(
+//                top = 12.dp
+//            ), fontWeight = FontWeight.Bold
+//        )
+//        Text(
+//            userDetails.description, fontSize = 12.sp
 
-        )
+//        )
 
         Row(modifier = Modifier.padding(vertical = 12.dp)) {
             FilledTonalButton(

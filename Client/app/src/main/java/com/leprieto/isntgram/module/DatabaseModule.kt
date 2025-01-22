@@ -2,7 +2,7 @@ package com.leprieto.isntgram.module
 
 import android.content.Context
 import androidx.room.Room
-import com.leprieto.isntgram.dao.RemoteUserDao
+import com.leprieto.isntgram.dao.UserDetailsDao
 import com.leprieto.isntgram.dao.remote.ApiService
 import com.leprieto.isntgram.db.AppDatabase
 import com.leprieto.isntgram.model.RemoteUserRepository
@@ -29,12 +29,12 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(remoteUserDao: RemoteUserDao): RemoteUserRepository {
-        return RemoteUserRepository(remoteUserDao)
+    fun provideUserRepository(userDetailsDao: UserDetailsDao): RemoteUserRepository {
+        return RemoteUserRepository(userDetailsDao)
     }
 
     @Provides
-    fun provideUserDao(database: AppDatabase): RemoteUserDao {
+    fun provideUserDao(database: AppDatabase): UserDetailsDao {
         return database.remoteUserDao()
     }
 

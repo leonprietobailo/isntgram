@@ -23,11 +23,15 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 
 @Composable
-fun LoginScreenComposable(
+fun RegisterScreenComposable(
     navController: NavController, modifier: Modifier = Modifier.padding(12.dp)
 ) {
+
     var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -39,6 +43,12 @@ fun LoginScreenComposable(
             value = username,
             onValueChange = { username = it },
             placeholder = { Text(text = "Username") })
+        TextField(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 4.dp),
+            value = email,
+            onValueChange = { email = it },
+            placeholder = { Text(text = "Email") })
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -48,17 +58,26 @@ fun LoginScreenComposable(
             placeholder = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation()
         )
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            placeholder = { Text(text = "Confirm Password") },
+            visualTransformation = PasswordVisualTransformation()
+        )
         Button(modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = { navController.navigate(NavigationControllerValues.LOGIN.name) }) {
-            Text(text = "Login")
+            Text(text = "Register")
         }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun LoginScreenComposablePreview() {
-    LoginScreenComposable(navController = rememberNavController())
+fun RegisterScreenComposablePreview() {
+    RegisterScreenComposable(navController = rememberNavController())
 }

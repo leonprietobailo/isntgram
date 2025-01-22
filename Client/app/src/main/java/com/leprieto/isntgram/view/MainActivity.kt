@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,9 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -30,7 +27,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.RemoteUser
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
 import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -125,7 +121,7 @@ fun Screen(
         )
 
         NVC.ADD.screen -> DummyScreen(name, remoteUserViewModel)
-        NVC.LOGIN.screen -> DummyScreen(name, remoteUserViewModel)
+//        NVC.LOGIN.screen -> LoginScreenMainComposable()
         NVC.PROFILE.screen -> SelfProfileMainComposable()
     }
 }
@@ -167,8 +163,8 @@ fun BottomNavigationBar(navController: NavController) {
             }
         )
         NavigationBarItem(
-            selected = navController.currentDestination?.route == NVC.REELS.screen,
-            onClick = { navController.navigate(NVC.REELS.screen) },
+            selected = navController.currentDestination?.route == NVC.LOGIN.screen,
+            onClick = { navController.navigate(NVC.LOGIN.screen) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_reels),
@@ -193,18 +189,18 @@ fun BottomNavigationBar(navController: NavController) {
 
 @Composable
 fun DummyScreen(name: String, remoteUserViewModel: RemoteUserViewModel) {
-    val newRemoteUser = RemoteUser(
-        id = Math.random().toString(),
-        description = "",
-        followers = 0,
-        following = 0,
-        posts = 0,
-        name = ""
-    )
-    remoteUserViewModel.addUser(newRemoteUser)
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "$name dummy screen")
-    }
+//    val newUserDetails = UserDetails(
+//        id = Math.random().toString(),
+////        descripti/on = "",
+////        followers = 0,
+////        following = 0,
+////        posts = 0,
+////        name = ""
+//    )
+//    remoteUserViewModel.addUser(newUserDetails)
+//    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//        Text(text = "$name dummy screen")
+//    }
 }
 
 
