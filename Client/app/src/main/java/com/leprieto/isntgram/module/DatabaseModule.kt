@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.leprieto.isntgram.dao.UserDetailsDao
 import com.leprieto.isntgram.dao.remote.ApiService
 import com.leprieto.isntgram.db.AppDatabase
-import com.leprieto.isntgram.model.RemoteUserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,11 +26,11 @@ object DatabaseModule {
         return Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
     }
 
-    @Provides
-    @Singleton
-    fun provideUserRepository(userDetailsDao: UserDetailsDao): RemoteUserRepository {
-        return RemoteUserRepository(userDetailsDao)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideUserRepository(userDetailsDao: UserDetailsDao): RemoteUserRepository {
+//        return RemoteUserRepository(userDetailsDao)
+//    }
 
     @Provides
     fun provideUserDao(database: AppDatabase): UserDetailsDao {

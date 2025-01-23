@@ -20,14 +20,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -44,30 +42,31 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.model.UserDetails
-import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
+
+//import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
 
-@Composable
-fun OtherProfileMainComposable(
-    modifier: Modifier = Modifier.padding(12.dp),
-    remoteUserViewModel: RemoteUserViewModel,
-    profileId: String
-) {
-    val user by remoteUserViewModel.getProfile(profileId).collectAsState()
-    if (user == null) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
-        Column(modifier = modifier) {
-            ProfileTopBar(userDetails = user!!)
-            Body(userDetails = user!!)
-        }
-    }
-}
+//@Composable
+//fun OtherProfileMainComposable(
+//    modifier: Modifier = Modifier.padding(12.dp),
+//    remoteUserViewModel: RemoteUserViewModel,
+//    profileId: String
+//) {
+//    val user by remoteUserViewModel.getProfile(profileId).collectAsState()
+//    if (user == null) {
+//        Box(
+//            modifier = Modifier.fillMaxSize(),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            CircularProgressIndicator()
+//        }
+//    } else {
+//        Column(modifier = modifier) {
+//            ProfileTopBar(userDetails = user!!)
+//            Body(userDetails = user!!)
+//        }
+//    }
+//}
 
 @Composable
 private fun ProfileTopBar(userDetails: UserDetails) {
