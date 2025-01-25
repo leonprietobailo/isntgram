@@ -53,6 +53,10 @@ class MainActivity : ComponentActivity() {
                         composable(NVC.LOGIN.screen) {
                             LoginScreenComposable(navController = navController)
                         }
+
+                        composable(NVC.DUMMY.screen) {
+                            DummyScreenComposable()
+                        }
 //                        composable(NVC.ADD.screen) {
 //                            Screen(
 //                                NVC.ADD.screen,

@@ -2,9 +2,10 @@ package com.leprieto.isntgram.module
 
 import android.content.Context
 import androidx.room.Room
-import com.leprieto.isntgram.dao.UserDetailsDao
 import com.leprieto.isntgram.dao.remote.ApiService
 import com.leprieto.isntgram.db.AppDatabase
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,10 +33,10 @@ object DatabaseModule {
 //        return RemoteUserRepository(userDetailsDao)
 //    }
 
-    @Provides
-    fun provideUserDao(database: AppDatabase): UserDetailsDao {
-        return database.remoteUserDao()
-    }
+//    @Provides
+//    fun provideUserDao(database: AppDatabase): UserDetailsDao {
+//        return database.remoteUserDao()
+//    }
 
     @Provides
     @Singleton
@@ -53,9 +54,16 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
-        return Retrofit.Builder().baseUrl("http://localhost:8080").client(client)
-            .addConverterFactory(MoshiConverterFactory.create()).build()
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder().add(KotlinJsonAdapterFactory())
+            .build() // Optionally add custom adapters if needed
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit {
+        return Retrofit.Builder().baseUrl("http://192.168.1.150:8080/api/").client(client)
+            .addConverterFactory(MoshiConverterFactory.create(moshi)).build()
     }
 
     @Provides

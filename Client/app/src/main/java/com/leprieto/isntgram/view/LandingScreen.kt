@@ -31,14 +31,14 @@ fun LandingScreenComposable(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            onClick = { navController.navigate(NavigationControllerValues.LOGIN.name) }) {
+            onClick = { navController.navigate(NavigationControllerValues.LOGIN.screen) }) {
             Text(text = "Login")
         }
         FilledTonalButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            onClick = { navController.navigate(NavigationControllerValues.REGISTER.name) }) {
+            onClick = { navController.navigate(NavigationControllerValues.REGISTER.screen) }) {
             Text(text = "Register")
         }
     }
