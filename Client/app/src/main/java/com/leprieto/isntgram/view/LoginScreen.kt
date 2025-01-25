@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,16 +20,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.leprieto.isntgram.model.UserDetails
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
+import com.leprieto.isntgram.viewmodel.UserDetailsRemoteViewModel
+import com.leprieto.isntgram.viewmodel.sealed.GenericRequestState
+
 
 @Composable
 fun LoginScreenComposable(
-    navController: NavController, modifier: Modifier = Modifier.padding(12.dp)
+    navController: NavController,
+    userDetailsRemoteViewModel: UserDetailsRemoteViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val loginState = userDetailsRemoteViewModel.loginState
+    LaunchedEffect(key1 = loginState) {
+        if (loginState is GenericRequestState.Success) {
+            navController.navigate(NavigationControllerValues.DUMMY.name)
+        }
+    }
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -51,8 +66,21 @@ fun LoginScreenComposable(
         Button(modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
-            onClick = { navController.navigate(NavigationControllerValues.LOGIN.name) }) {
-            Text(text = "Login")
+            onClick = {
+                userDetailsRemoteViewModel.login(
+                    UserDetails(
+                        id = username, password = password, email = null
+                    )
+                )
+//                navController.navigate(NavigationControllerValues.LOGIN.name)
+            }) {
+            when (loginState) {
+                is GenericRequestState.Error, GenericRequestState.Idle -> Text(text = "Login")
+                GenericRequestState.Loading -> CircularProgressIndicator()
+                is GenericRequestState.Success -> {
+                    Text(text = "Success")
+                }
+            }
         }
     }
 }

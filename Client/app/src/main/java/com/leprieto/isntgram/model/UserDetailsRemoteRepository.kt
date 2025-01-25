@@ -11,6 +11,7 @@ class UserDetailsRemoteRepository @Inject constructor(private val apiService: Ap
             val response: GenericApiResponse = apiService.login(userDetails)
             Result.success(response)
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.failure(e)
         }
     }
@@ -20,6 +21,7 @@ class UserDetailsRemoteRepository @Inject constructor(private val apiService: Ap
             val response: GenericApiResponse = apiService.register(userDetails)
             Result.success(response)
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.failure(e)
         }
     }

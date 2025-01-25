@@ -3,6 +3,7 @@ package com.leonprieto.ig.isntgram_api.controller;
 import com.leonprieto.ig.isntgram_api.model.Users;
 import com.leonprieto.ig.isntgram_api.security.JwtTokenUtil;
 import com.leonprieto.ig.isntgram_api.service.UserService;
+import com.leonprieto.ig.isntgram_api.service.response.GenericApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,22 +18,22 @@ public class AuthController {
   private UserService userService;
 
   @PostMapping("login")
-  public ResponseEntity<String> login(@RequestBody Users user) {
+  public ResponseEntity<GenericApiResponse> login(@RequestBody Users user) {
     final boolean result = userService.validateLogin(user);
     if (result) {
-      final String token = JwtTokenUtil.generateToken(user.getUsername());
-      return ResponseEntity.ok(token);
+      final String token = JwtTokenUtil.generateToken(user.getId());
+      return ResponseEntity.ok(new GenericApiResponse(true, token));
     }
-    return ResponseEntity.status(401).build();
+    return ResponseEntity.ok(new GenericApiResponse(false, "Login credentials are not correct."));
   }
 
   @PostMapping("register")
-  public ResponseEntity<String> register(@RequestBody Users user) {
+  public ResponseEntity<GenericApiResponse> register(@RequestBody Users user) {
     final Users users = userService.registerUser(user);
     if (users != null) {
-      final String token = JwtTokenUtil.generateToken(users.getUsername());
-      return ResponseEntity.ok(token);
+      final String token = JwtTokenUtil.generateToken(users.getId());
+      return ResponseEntity.ok(new GenericApiResponse(true, token));
     }
-    return ResponseEntity.status(401).build();
+    return ResponseEntity.ok(new GenericApiResponse(false, "User registration failed."));
   }
 }

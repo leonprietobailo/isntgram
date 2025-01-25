@@ -24,7 +24,7 @@ public class UserService {
 
   public boolean validateLogin(Users user) {
     // Fetch password.
-    final Optional<Users> userName = userRepository.findByUsername(user.getUsername());
+    final Optional<Users> userName = userRepository.findById(user.getId());
     if (userName.isEmpty()) {
       return false;
     }

@@ -13,8 +13,8 @@ public class JwtTokenUtil {
   private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET);
   private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour.
 
-  public static String generateToken(String username) {
-    return JWT.create().withSubject(username).withIssuedAt(new Date())
+  public static String generateToken(String id) {
+    return JWT.create().withSubject(id).withIssuedAt(new Date())
         .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).sign(ALGORITHM);
   }
   

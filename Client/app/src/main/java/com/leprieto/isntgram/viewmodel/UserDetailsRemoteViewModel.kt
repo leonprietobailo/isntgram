@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leprieto.isntgram.model.UserDetails
 import com.leprieto.isntgram.model.UserDetailsRemoteRepository
-import com.leprieto.isntgram.viewmodel.sealed.LoginState
+import com.leprieto.isntgram.viewmodel.sealed.GenericRequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,25 +17,32 @@ class UserDetailsRemoteViewModel @Inject constructor(
     private val userDetailsRemoteRepository: UserDetailsRemoteRepository
 ) : ViewModel() {
 
-    var loginState by mutableStateOf<LoginState>(LoginState.Idle)
+    var loginState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
+        private set
+    var registerState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
 
     fun login(userDetails: UserDetails) {
         viewModelScope.launch {
-            loginState = LoginState.Loading
+            loginState = GenericRequestState.Loading
             val result = userDetailsRemoteRepository.login(userDetails)
             loginState = if (result.isSuccess) {
-                LoginState.Success(result.getOrNull())
+                GenericRequestState.Success(result.getOrNull())
             } else {
-                LoginState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+                GenericRequestState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
             }
         }
     }
 
     fun register(userDetails: UserDetails) {
         viewModelScope.launch {
-            loginState = LoginState.Loading
+            registerState = GenericRequestState.Loading
             val result = userDetailsRemoteRepository.register(userDetails)
+            registerState = if (result.isSuccess) {
+                GenericRequestState.Success(result.getOrNull())
+            } else {
+                GenericRequestState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+            }
         }
     }
 }
