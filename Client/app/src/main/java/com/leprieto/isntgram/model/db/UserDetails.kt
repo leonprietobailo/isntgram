@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.model
+package com.leprieto.isntgram.model.db
 
 import com.squareup.moshi.JsonClass
 

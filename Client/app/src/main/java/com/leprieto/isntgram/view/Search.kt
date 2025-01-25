@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.UserDetails
+import com.leprieto.isntgram.model.db.UserDetails
 
 //import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 

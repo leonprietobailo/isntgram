@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.leprieto.isntgram.model.UserDetails
+import com.leprieto.isntgram.model.db.UserDetails
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 import com.leprieto.isntgram.viewmodel.UserDetailsRemoteViewModel
-import com.leprieto.isntgram.viewmodel.sealed.GenericRequestState
+import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 
 
 @Composable
