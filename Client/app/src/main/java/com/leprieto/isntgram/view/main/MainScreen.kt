@@ -30,7 +30,7 @@ fun MainScreenComposable() {
         bottomBar = { BottomNavigationBarComposable(navController = mainNavController) }) { paddingValues: PaddingValues ->
         NavHost(
             navController = mainNavController,
-            startDestination = NavigationControllerValues.HOME.screen,
+            startDestination = NavigationControllerValues.PROFILE.screen,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(NavigationControllerValues.HOME.screen) {
@@ -46,7 +46,7 @@ DummyScreenComposable()
                 DummyScreenComposable()
             }
             composable(NavigationControllerValues.PROFILE.screen) {
-
+                SelfProfileMainComposable()
             }
         }
     }

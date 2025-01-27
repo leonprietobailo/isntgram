@@ -28,6 +28,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -109,7 +110,10 @@ private fun Body(
     val currentUserDummy: String = "omegaisugly"
     val loadedState = profileViewModel.loadedState
     var selectedTab by remember { mutableIntStateOf(0) }
-    profileViewModel.getProfile(currentUserDummy)
+    LaunchedEffect() {
+        profileViewModel.getProfile(currentUserDummy)
+    }
+
     Column(modifier = Modifier.padding(12.dp)) {
         when (loadedState) {
             is ProfileDtoState.Error -> {

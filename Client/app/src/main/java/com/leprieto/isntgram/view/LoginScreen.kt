@@ -43,7 +43,7 @@ fun LoginScreenComposable(
     val loginState = userDetailsRemoteViewModel.loginState
     LaunchedEffect(key1 = loginState) {
         if (loginState is GenericRequestState.Success) {
-            navController.navigate(NavigationControllerValues.DUMMY.name)
+            navController.navigate(NavigationControllerValues.MAIN.screen)
         }
     }
     Column(
