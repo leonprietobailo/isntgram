@@ -2,18 +2,14 @@ package com.leonprieto.ig.isntgram_api.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Users {
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  private Long id;
 
   @Id
-//  @Column(nullable = false, unique = true)
   private String id;
 
   @Column(nullable = false)
@@ -21,6 +17,10 @@ public class Users {
 
   @Column(nullable = false)
   private String email;
+
+  @JoinColumn(nullable = false)
+  @OneToOne(mappedBy = "user")
+  private UserProfile profile;
 
   public String getId() {
     return id;
@@ -44,5 +44,13 @@ public class Users {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public UserProfile getProfile() {
+    return profile;
+  }
+
+  public void setProfile(UserProfile profile) {
+    this.profile = profile;
   }
 }

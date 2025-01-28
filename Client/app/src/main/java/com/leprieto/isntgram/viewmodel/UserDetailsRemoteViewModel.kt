@@ -5,13 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leprieto.isntgram.model.UserDetails
 import com.leprieto.isntgram.model.UserDetailsRemoteRepository
-import com.leprieto.isntgram.viewmodel.sealed.GenericRequestState
+import com.leprieto.isntgram.model.db.UserDetails
+import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// TODO: Split viewmodel into login / register.
 @HiltViewModel
 class UserDetailsRemoteViewModel @Inject constructor(
     private val userDetailsRemoteRepository: UserDetailsRemoteRepository

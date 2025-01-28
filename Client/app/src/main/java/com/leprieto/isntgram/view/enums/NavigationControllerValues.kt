@@ -5,7 +5,7 @@ enum class NavigationControllerValues(val screen: String) {
     HOME("home"), SEARCH("search"), ADD("add"), REELS("reels"), PROFILE("profile"),
 
     // New ones
-    LANDING("landing"), LOGIN("login"), REGISTER("register"),
+    LANDING("landing"), LOGIN("login"), REGISTER("register"), MAIN("main"),
 
     // DEV
     DUMMY("dummy")

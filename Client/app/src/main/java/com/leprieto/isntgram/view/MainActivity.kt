@@ -24,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
+import com.leprieto.isntgram.view.main.MainScreenComposable
 import dagger.hilt.android.AndroidEntryPoint
 import com.leprieto.isntgram.view.enums.NavigationControllerValues as NVC
 
@@ -53,7 +54,9 @@ class MainActivity : ComponentActivity() {
                         composable(NVC.LOGIN.screen) {
                             LoginScreenComposable(navController = navController)
                         }
-
+                        composable(NVC.MAIN.screen) {
+                            MainScreenComposable()
+                        }
                         composable(NVC.DUMMY.screen) {
                             DummyScreenComposable()
                         }
@@ -114,56 +117,56 @@ class MainActivity : ComponentActivity() {
 //    }
 //}
 
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    NavigationBar(modifier = Modifier.height(60.dp)) {
-        NavigationBarItem(selected = navController.currentDestination?.route == NVC.HOME.screen,
-            onClick = { navController.navigate(NVC.HOME.screen) },
-            icon = {
-                Icon(
-                    painter = painterResource(R.drawable.home),
-                    contentDescription = "Home",
-                    modifier = Modifier.size(20.dp)
-                )
-            })
-        NavigationBarItem(selected = navController.currentDestination?.route == NVC.SEARCH.screen,
-            onClick = { navController.navigate(NVC.SEARCH.screen) },
-            icon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_search),
-                    contentDescription = "Search",
-                    modifier = Modifier.size(20.dp)
-                )
-            })
-        NavigationBarItem(selected = navController.currentDestination?.route == NVC.ADD.screen,
-            onClick = { navController.navigate(NVC.ADD.screen) },
-            icon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_action_name),
-                    contentDescription = "Post",
-                    modifier = Modifier.size(20.dp)
-                )
-            })
-        NavigationBarItem(selected = navController.currentDestination?.route == NVC.LOGIN.screen,
-            onClick = { navController.navigate(NVC.LOGIN.screen) },
-            icon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_reels),
-                    contentDescription = "Reels",
-                    modifier = Modifier.size(20.dp)
-                )
-            })
-        NavigationBarItem(selected = navController.currentDestination?.route == NVC.PROFILE.screen,
-            onClick = { navController.navigate(NVC.PROFILE.screen) },
-            icon = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_person),
-                    contentDescription = "Profile",
-                    modifier = Modifier.size(20.dp)
-                )
-            })
-    }
-}
+//@Composable
+//fun BottomNavigationBar(navController: NavController) {
+//    NavigationBar(modifier = Modifier.height(60.dp)) {
+//        NavigationBarItem(selected = navController.currentDestination?.route == NVC.HOME.screen,
+//            onClick = { navController.navigate(NVC.HOME.screen) },
+//            icon = {
+//                Icon(
+//                    painter = painterResource(R.drawable.home),
+//                    contentDescription = "Home",
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            })
+//        NavigationBarItem(selected = navController.currentDestination?.route == NVC.SEARCH.screen,
+//            onClick = { navController.navigate(NVC.SEARCH.screen) },
+//            icon = {
+//                Icon(
+//                    painter = painterResource(R.drawable.ic_search),
+//                    contentDescription = "Search",
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            })
+//        NavigationBarItem(selected = navController.currentDestination?.route == NVC.ADD.screen,
+//            onClick = { navController.navigate(NVC.ADD.screen) },
+//            icon = {
+//                Icon(
+//                    painter = painterResource(R.drawable.ic_action_name),
+//                    contentDescription = "Post",
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            })
+//        NavigationBarItem(selected = navController.currentDestination?.route == NVC.LOGIN.screen,
+//            onClick = { navController.navigate(NVC.LOGIN.screen) },
+//            icon = {
+//                Icon(
+//                    painter = painterResource(R.drawable.ic_reels),
+//                    contentDescription = "Reels",
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            })
+//        NavigationBarItem(selected = navController.currentDestination?.route == NVC.PROFILE.screen,
+//            onClick = { navController.navigate(NVC.PROFILE.screen) },
+//            icon = {
+//                Icon(
+//                    painter = painterResource(R.drawable.ic_person),
+//                    contentDescription = "Profile",
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            })
+//    }
+//}
 
 //@Composable
 //fun DummyScreen(name: String, remoteUserViewModel: RemoteUserViewModel) {

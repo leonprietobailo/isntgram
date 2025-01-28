@@ -2,6 +2,7 @@ package com.leprieto.isntgram.model
 
 import com.leprieto.isntgram.dao.remote.ApiService
 import com.leprieto.isntgram.dao.remote.response.GenericApiResponse
+import com.leprieto.isntgram.model.db.UserDetails
 import javax.inject.Inject
 
 class UserDetailsRemoteRepository @Inject constructor(private val apiService: ApiService) {
