@@ -107,11 +107,16 @@ private fun ProfileTopBar() {
 private fun Body(
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val currentUserDummy: String = "omegaisugly"
+    val currentUserDummy: String = "omega"
     val loadedState = profileViewModel.loadedState
     var selectedTab by remember { mutableIntStateOf(0) }
-    LaunchedEffect() {
-        profileViewModel.getProfile(currentUserDummy)
+
+    LaunchedEffect(key1 = loadedState) {
+        when (loadedState) {
+            ProfileDtoState.Idle -> profileViewModel.getProfile(currentUserDummy)
+            is ProfileDtoState.Error, ProfileDtoState.Loading, is ProfileDtoState.Success -> {
+            }
+        }
     }
 
     Column(modifier = Modifier.padding(12.dp)) {
@@ -152,14 +157,18 @@ private fun Body(
                         ProfileNumberIndicator(loadedState.response.followers, "following")
                     }
                 }
-                Text(
-                    loadedState.response.name, fontSize = 12.sp, modifier = Modifier.padding(
-                        top = 12.dp
-                    ), fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = loadedState.response.description, fontSize = 12.sp
-                )
+                loadedState.response.name?.let {
+                    Text(
+                        it, fontSize = 12.sp, modifier = Modifier.padding(
+                            top = 12.dp
+                        ), fontWeight = FontWeight.Bold
+                    )
+                }
+                loadedState.response.description?.let {
+                    Text(
+                        text = it, fontSize = 12.sp
+                    )
+                }
 
                 Row(modifier = Modifier.padding(vertical = 12.dp)) {
                     FilledTonalButton(modifier = Modifier.weight(4f),

@@ -1,5 +1,6 @@
 package com.leonprieto.ig.isntgram_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,6 +17,7 @@ public class UserProfile {
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   @MapsId
+  @JsonIgnore
   private Users user;
 
   @Column

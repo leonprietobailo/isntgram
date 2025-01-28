@@ -1,9 +1,7 @@
 package com.leonprieto.ig.isntgram_api.controller;
 
 import com.leonprieto.ig.isntgram_api.model.UserProfile;
-import com.leonprieto.ig.isntgram_api.security.JwtTokenUtil;
 import com.leonprieto.ig.isntgram_api.service.AppService;
-import com.leonprieto.ig.isntgram_api.service.response.GenericApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/api/app")
 public class AppController {
 
   @Autowired
