@@ -1,7 +1,7 @@
-package com.leprieto.isntgram.model
+package com.leprieto.isntgram.repository.api
 
-import com.leprieto.isntgram.dao.remote.ApiService
-import com.leprieto.isntgram.model.dto.ProfileDto
+import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.query.api.ApiService
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(private val apiService: ApiService) {

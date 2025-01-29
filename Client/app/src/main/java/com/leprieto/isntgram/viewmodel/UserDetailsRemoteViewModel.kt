@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leprieto.isntgram.model.UserDetailsRemoteRepository
-import com.leprieto.isntgram.model.db.UserDetails
+import com.leprieto.isntgram.model.common.UserDetails
+import com.leprieto.isntgram.repository.db.UserDetailsRemoteRepository
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

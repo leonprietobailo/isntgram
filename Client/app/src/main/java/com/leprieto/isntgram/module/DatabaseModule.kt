@@ -2,8 +2,8 @@ package com.leprieto.isntgram.module
 
 import android.content.Context
 import androidx.room.Room
-import com.leprieto.isntgram.dao.remote.ApiService
 import com.leprieto.isntgram.db.AppDatabase
+import com.leprieto.isntgram.query.api.ApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

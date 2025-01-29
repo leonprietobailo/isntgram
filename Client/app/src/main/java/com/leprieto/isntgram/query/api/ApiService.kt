@@ -1,8 +1,8 @@
-package com.leprieto.isntgram.dao.remote
+package com.leprieto.isntgram.query.api
 
-import com.leprieto.isntgram.dao.remote.response.GenericApiResponse
-import com.leprieto.isntgram.model.db.UserDetails
-import com.leprieto.isntgram.model.dto.ProfileDto
+import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.model.common.UserDetails
+import com.leprieto.isntgram.query.api.response.GenericApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

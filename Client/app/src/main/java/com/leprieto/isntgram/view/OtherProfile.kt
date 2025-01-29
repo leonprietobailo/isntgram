@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.db.UserDetails
+import com.leprieto.isntgram.model.common.UserDetails
 
 //import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 

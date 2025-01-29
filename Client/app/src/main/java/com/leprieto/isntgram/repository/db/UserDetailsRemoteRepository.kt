@@ -1,8 +1,8 @@
-package com.leprieto.isntgram.model
+package com.leprieto.isntgram.repository.db
 
-import com.leprieto.isntgram.dao.remote.ApiService
-import com.leprieto.isntgram.dao.remote.response.GenericApiResponse
-import com.leprieto.isntgram.model.db.UserDetails
+import com.leprieto.isntgram.model.common.UserDetails
+import com.leprieto.isntgram.query.api.ApiService
+import com.leprieto.isntgram.query.api.response.GenericApiResponse
 import javax.inject.Inject
 
 class UserDetailsRemoteRepository @Inject constructor(private val apiService: ApiService) {

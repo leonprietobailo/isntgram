@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.model.dto
+package com.leprieto.isntgram.model.api
 
 data class ProfileDto(
     val name: String?,
