@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leprieto.isntgram.model.UserDetailsRemoteRepository
-import com.leprieto.isntgram.model.db.UserDetails
+import com.leprieto.isntgram.model.api.UserDetailsRemote
+import com.leprieto.isntgram.model.db.UserDetailsLocal
+import com.leprieto.isntgram.repository.api.UserDetailsRemoteRepository
+import com.leprieto.isntgram.repository.db.UserDetailsLocalRepository
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +17,8 @@ import javax.inject.Inject
 // TODO: Split viewmodel into login / register.
 @HiltViewModel
 class UserDetailsRemoteViewModel @Inject constructor(
-    private val userDetailsRemoteRepository: UserDetailsRemoteRepository
+    private val userDetailsRemoteRepository: UserDetailsRemoteRepository,
+    private val userDetailsLocalRepository: UserDetailsLocalRepository
 ) : ViewModel() {
 
     var loginState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
@@ -23,11 +26,15 @@ class UserDetailsRemoteViewModel @Inject constructor(
     var registerState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
 
-    fun login(userDetails: UserDetails) {
+    fun login(userDetailsRemote: UserDetailsRemote) {
         viewModelScope.launch {
             loginState = GenericRequestState.Loading
-            val result = userDetailsRemoteRepository.login(userDetails)
+            val result = userDetailsRemoteRepository.login(userDetailsRemote)
             loginState = if (result.isSuccess) {
+                // To persist locally.
+                val userDetailsLocal = UserDetailsLocal(userDetailsRemote.id, "")
+                userDetailsLocalRepository.deleteAll()
+                userDetailsLocalRepository.insertUser(userDetailsLocal)
                 GenericRequestState.Success(result.getOrNull())
             } else {
                 GenericRequestState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
@@ -35,10 +42,10 @@ class UserDetailsRemoteViewModel @Inject constructor(
         }
     }
 
-    fun register(userDetails: UserDetails) {
+    fun register(userDetailsRemote: UserDetailsRemote) {
         viewModelScope.launch {
             registerState = GenericRequestState.Loading
-            val result = userDetailsRemoteRepository.register(userDetails)
+            val result = userDetailsRemoteRepository.register(userDetailsRemote)
             registerState = if (result.isSuccess) {
                 GenericRequestState.Success(result.getOrNull())
             } else {

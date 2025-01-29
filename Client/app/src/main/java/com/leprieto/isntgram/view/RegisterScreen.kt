@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.leprieto.isntgram.model.db.UserDetails
+import com.leprieto.isntgram.model.api.UserDetailsRemote
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 import com.leprieto.isntgram.viewmodel.UserDetailsRemoteViewModel
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
@@ -87,7 +87,7 @@ fun RegisterScreenComposable(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
-                userDetailsRemoteViewModel.register(UserDetails(username, password, email))
+                userDetailsRemoteViewModel.register(UserDetailsRemote(username, password, email))
             }) {
             Box(
                 modifier = Modifier.height(24.dp)

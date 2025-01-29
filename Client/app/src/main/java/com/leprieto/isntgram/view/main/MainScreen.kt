@@ -34,7 +34,7 @@ fun MainScreenComposable() {
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(NavigationControllerValues.HOME.screen) {
-DummyScreenComposable()
+                DummyScreenComposable()
             }
             composable(NavigationControllerValues.SEARCH.screen) {
                 DummyScreenComposable()

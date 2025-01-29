@@ -1,6 +1,6 @@
 package com.leprieto.isntgram.viewmodel.states
 
-import com.leprieto.isntgram.dao.remote.response.GenericApiResponse
+import com.leprieto.isntgram.query.api.response.GenericApiResponse
 
 sealed class GenericRequestState {
     data object Idle : GenericRequestState()
