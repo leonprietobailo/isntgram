@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.common.UserDetails
+import com.leprieto.isntgram.model.api.UserDetailsRemote
 
 //import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
@@ -76,12 +76,12 @@ import com.leprieto.isntgram.model.common.UserDetails
 //}
 
 @Composable
-private fun ResultEntry(userDetails: UserDetails, navController: NavHostController) {
+private fun ResultEntry(userDetailsRemote: UserDetailsRemote, navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 6.dp)
-            .clickable { navController.navigate("profile/${userDetails.id}") },
+            .clickable { navController.navigate("profile/${userDetailsRemote.id}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -96,7 +96,7 @@ private fun ResultEntry(userDetails: UserDetails, navController: NavHostControll
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold,
-                text = userDetails.id
+                text = userDetailsRemote.id
             )
 //            Text(modifier = Modifier.padding(horizontal = 16.dp), text = userDetails.name)
         }

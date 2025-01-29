@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.leprieto.isntgram.model.common.UserDetails
+import com.leprieto.isntgram.model.db.UserDetailsLocal
 
 @Dao
-interface UserDetailsDao {
+interface UserDetailsLocalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(userDetails: UserDetails)
+    suspend fun insert(userDetailsLocal: UserDetailsLocal)
 
-//    @Query(value = "SELECT * FROM user_details WHERE id = :userId")
-//    suspend fun getByPk(userId: String): UserDetails?
+    @Query(value = "DELETE FROM user_details")
+    suspend fun deleteAll()
 
     @Query(value = "SELECT * FROM user_details")
-    suspend fun getAll(): UserDetails
+    suspend fun getAll(): UserDetailsLocal?
 }

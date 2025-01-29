@@ -1,14 +1,12 @@
-package com.leprieto.isntgram.model.common
+package com.leprieto.isntgram.model.db
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
 @Entity(tableName = "user_details")
 @JsonClass(generateAdapter = true)
-data class UserDetails(
+data class UserDetailsLocal(
     @PrimaryKey val id: String,
-    @Ignore val password: String,
-    @Ignore val email: String?,
+    val token: String
 )

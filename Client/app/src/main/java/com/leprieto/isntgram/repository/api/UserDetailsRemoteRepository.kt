@@ -1,15 +1,15 @@
-package com.leprieto.isntgram.repository.db
+package com.leprieto.isntgram.repository.api
 
-import com.leprieto.isntgram.model.common.UserDetails
+import com.leprieto.isntgram.model.api.UserDetailsRemote
 import com.leprieto.isntgram.query.api.ApiService
 import com.leprieto.isntgram.query.api.response.GenericApiResponse
 import javax.inject.Inject
 
 class UserDetailsRemoteRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun login(userDetails: UserDetails): Result<GenericApiResponse> {
+    suspend fun login(userDetailsRemote: UserDetailsRemote): Result<GenericApiResponse> {
         return try {
-            val response: GenericApiResponse = apiService.login(userDetails)
+            val response: GenericApiResponse = apiService.login(userDetailsRemote)
             Result.success(response)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -17,9 +17,9 @@ class UserDetailsRemoteRepository @Inject constructor(private val apiService: Ap
         }
     }
 
-    suspend fun register(userDetails: UserDetails): Result<GenericApiResponse> {
+    suspend fun register(userDetailsRemote: UserDetailsRemote): Result<GenericApiResponse> {
         return try {
-            val response: GenericApiResponse = apiService.register(userDetails)
+            val response: GenericApiResponse = apiService.register(userDetailsRemote)
             Result.success(response)
         } catch (e: Exception) {
             e.printStackTrace()
