@@ -1,0 +1,40 @@
+package com.leprieto.isntgram.viewmodel
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.leprieto.isntgram.repository.api.ProfileRepository
+import com.leprieto.isntgram.repository.db.UserDetailsLocalRepository
+import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class LoggedAccountViewModel @Inject constructor(
+    private val userDetailsLocalRepository: UserDetailsLocalRepository,
+    private val profileRepository: ProfileRepository
+) : ViewModel() {
+
+    var loadedState by mutableStateOf<ProfileDtoState>(ProfileDtoState.Idle)
+        private set
+
+    fun loadProfile() {
+        viewModelScope.launch {
+            loadedState = ProfileDtoState.Loading
+            val user = userDetailsLocalRepository.getUser()
+            loadedState = if (user == null) {
+                ProfileDtoState.Error("User is not logged in.")
+            } else {
+                val result = profileRepository.getProfile(user.id)
+                if (result.isSuccess) {
+                    ProfileDtoState.Success(result.getOrNull()!!)
+                } else {
+                    ProfileDtoState.Error("Error fetching data from server.")
+                }
+            }
+        }
+    }
+}

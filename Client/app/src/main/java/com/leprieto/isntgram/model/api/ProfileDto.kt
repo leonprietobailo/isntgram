@@ -1,6 +1,7 @@
 package com.leprieto.isntgram.model.api
 
 data class ProfileDto(
+    val userId: String,
     val name: String?,
     val description: String?,
     val posts: Int,

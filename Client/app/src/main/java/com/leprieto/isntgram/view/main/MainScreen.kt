@@ -10,10 +10,12 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.view.DummyScreenComposable
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
+import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
@@ -46,7 +49,14 @@ fun MainScreenComposable() {
                 DummyScreenComposable()
             }
             composable(NavigationControllerValues.PROFILE.screen) {
-                SelfProfileMainComposable()
+                val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
+                LaunchedEffect(key1 = Unit) {
+                    loggedAccountViewModel.loadProfile()
+                }
+                SelfProfileMainComposable(
+                    loadedState = loggedAccountViewModel.loadedState,
+                    loadProfile = loggedAccountViewModel::loadProfile
+                )
             }
         }
     }
