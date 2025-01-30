@@ -29,20 +29,20 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.model.api.UserDetailsRemote
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
-import com.leprieto.isntgram.viewmodel.UserDetailsRemoteViewModel
+import com.leprieto.isntgram.viewmodel.UserDetailsViewModel
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 
 @Composable
 fun RegisterScreenComposable(
     navController: NavController,
-    userDetailsRemoteViewModel: UserDetailsRemoteViewModel = hiltViewModel(),
+    userDetailsViewModel: UserDetailsViewModel = hiltViewModel(),
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    val registerState = userDetailsRemoteViewModel.registerState
+    val registerState = userDetailsViewModel.registerState
     LaunchedEffect(key1 = registerState) {
         if (registerState is GenericRequestState.Success) {
             navController.navigate(NavigationControllerValues.LOGIN.name)
@@ -87,7 +87,7 @@ fun RegisterScreenComposable(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
-                userDetailsRemoteViewModel.register(UserDetailsRemote(username, password, email))
+                userDetailsViewModel.register(UserDetailsRemote(username, password, email))
             }) {
             Box(
                 modifier = Modifier.height(24.dp)

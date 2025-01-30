@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 // TODO: Split viewmodel into login / register.
 @HiltViewModel
-class UserDetailsRemoteViewModel @Inject constructor(
+class UserDetailsViewModel @Inject constructor(
     private val userDetailsRemoteRepository: UserDetailsRemoteRepository,
     private val userDetailsLocalRepository: UserDetailsLocalRepository
 ) : ViewModel() {
@@ -25,6 +25,8 @@ class UserDetailsRemoteViewModel @Inject constructor(
         private set
     var registerState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
+//    var accountState by mutableStateOf<UserDetailsState>(UserDetailsState.Idle)
+//        private set
 
     fun login(userDetailsRemote: UserDetailsRemote) {
         viewModelScope.launch {
@@ -53,4 +55,16 @@ class UserDetailsRemoteViewModel @Inject constructor(
             }
         }
     }
+
+//    fun loadLoggedUser() {
+//        viewModelScope.launch {
+//            accountState = UserDetailsState.Loading
+//            val userDetailsLocal = userDetailsLocalRepository.getUser()
+//            accountState = if (userDetailsLocal == null) {
+//                UserDetailsState.Error("Missing user -> login again.")
+//            } else {
+//                UserDetailsState.Success(userDetailsLocal)
+//            }
+//        }
+//    }
 }
