@@ -29,6 +29,7 @@ public class AuthController {
 
   @PostMapping("register")
   public ResponseEntity<GenericApiResponse> register(@RequestBody Users user) {
+    user.setId(user.getId().toLowerCase());
     final Users users = userService.registerUser(user);
     if (users != null) {
       final String token = JwtTokenUtil.generateToken(users.getId());
