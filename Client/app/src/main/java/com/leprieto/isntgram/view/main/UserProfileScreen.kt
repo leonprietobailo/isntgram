@@ -46,13 +46,15 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 
 @Composable
 fun SelfProfileMainComposable(
     modifier: Modifier = Modifier.padding(12.dp),
     loadedState: ProfileDtoState,
-    loadProfile: () -> Unit
+    loadProfile: () -> Unit,
+    editProfile: (String) -> Unit
 ) {
     Column(modifier = modifier) {
         when (loadedState) {
@@ -65,7 +67,7 @@ fun SelfProfileMainComposable(
             }
 
             is ProfileDtoState.Success -> {
-                LoadedStateComposable(loadedState)
+                LoadedStateComposable(loadedState = loadedState, editProfile = editProfile)
             }
         }
     }
@@ -99,11 +101,13 @@ private fun ErrorStateComposable(loadProfile: () -> Unit) {
 }
 
 @Composable
-private fun LoadedStateComposable(loadedState: ProfileDtoState.Success) {
+private fun LoadedStateComposable(
+    loadedState: ProfileDtoState.Success, editProfile: (String) -> Unit
+) {
     ProfileTopBar(loadedState)
     ProfileStatsComposable(loadedState)
     NameAndDescriptionComposable(loadedState)
-    ProfileManagementButtonsComposable()
+    ProfileManagementButtonsComposable(editProfile = editProfile)
     TabSelectorComposable()
 }
 
@@ -197,17 +201,15 @@ private fun NameAndDescriptionComposable(loadedState: ProfileDtoState.Success) {
 }
 
 @Composable
-private fun ProfileManagementButtonsComposable() {
+private fun ProfileManagementButtonsComposable(editProfile: (String) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
-        FilledTonalButton(
-            modifier = Modifier.weight(4f),
+        FilledTonalButton(modifier = Modifier.weight(4f),
             shape = RoundedCornerShape(12.dp),
-            onClick = {}) {
+            onClick = { editProfile(Screen.EditProfile.route) }) {
             Text("Edit profile")
         }
         Spacer(modifier = Modifier.size(8.dp))
-        FilledTonalButton(
-            modifier = Modifier.weight(4f),
+        FilledTonalButton(modifier = Modifier.weight(4f),
             shape = RoundedCornerShape(12.dp),
             onClick = {}) {
             Text("Share profile")
@@ -326,5 +328,6 @@ private fun SelfProfileMainComposablePreview() {
         ProfileDto(
             "omega", "sample", "sample sample", 0, 0, 0
         )
-    ), loadProfile = {})
+    ), loadProfile = {}, editProfile = { })
 }
+

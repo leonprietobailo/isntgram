@@ -19,4 +19,8 @@ public class AppService {
     user.setId(userId);
     return profileRepository.findByUser(user);
   }
+
+  public UserProfile updateProfile(UserProfile userProfile) {
+    return profileRepository.save(userProfile);
+  }
 }

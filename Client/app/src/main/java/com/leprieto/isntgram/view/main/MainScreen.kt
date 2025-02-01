@@ -21,41 +21,66 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
+import com.leprieto.isntgram.util.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
-import com.leprieto.isntgram.view.enums.NavigationControllerValues
+import com.leprieto.isntgram.view.EditProfileComposable
+import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
+
 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun MainScreenComposable() {
     val mainNavController = rememberNavController()
+    val navBackStackEntry = mainNavController.currentBackStackEntry
+    val currentRoute = navBackStackEntry?.destination?.route
+    val currentScreen = currentRoute?.toScreen()
+
     Scaffold(modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBarComposable(navController = mainNavController) }) { paddingValues: PaddingValues ->
+        bottomBar = {
+            if (currentScreen?.showBottomBar == true) {
+                BottomNavigationBarComposable(navController = mainNavController)
+            }
+        }) { paddingValues: PaddingValues ->
         NavHost(
             navController = mainNavController,
-            startDestination = NavigationControllerValues.PROFILE.screen,
+            startDestination = Screen.Profile.route,
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable(NavigationControllerValues.HOME.screen) {
+            composable(Screen.Home.route) {
                 DummyScreenComposable()
             }
-            composable(NavigationControllerValues.SEARCH.screen) {
+            composable(Screen.Search.route) {
                 DummyScreenComposable()
             }
-            composable(NavigationControllerValues.ADD.screen) {
+            composable(Screen.Add.route) {
                 DummyScreenComposable()
             }
-            composable(NavigationControllerValues.REELS.screen) {
+            composable(Screen.Reels.route) {
                 DummyScreenComposable()
             }
-            composable(NavigationControllerValues.PROFILE.screen) {
+            composable(Screen.Profile.route) {
                 val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
                 LaunchedEffect(key1 = Unit) {
                     loggedAccountViewModel.loadProfile()
                 }
                 SelfProfileMainComposable(
                     loadedState = loggedAccountViewModel.loadedState,
-                    loadProfile = loggedAccountViewModel::loadProfile
+                    loadProfile = loggedAccountViewModel::loadProfile,
+                    editProfile = mainNavController::navigate
+                )
+            }
+            composable(Screen.EditProfile.route) {
+                val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
+                LaunchedEffect(key1 = Unit) {
+                    loggedAccountViewModel.loadProfile()
+                }
+                EditProfileComposable(
+                    loadedState = loggedAccountViewModel.loadedState,
+                    updatedState = loggedAccountViewModel.updatedState,
+//                    loadProfile = loggedAccountViewModel::loadProfile,
+                    updateProfile = loggedAccountViewModel::updateProfile,
+                    navigateBack = mainNavController::popBackStack
                 )
             }
         }
@@ -66,8 +91,8 @@ fun MainScreenComposable() {
 @Composable
 fun BottomNavigationBarComposable(navController: NavController) {
     NavigationBar(modifier = Modifier.height(60.dp)) {
-        NavigationBarItem(selected = navController.currentDestination?.route == NavigationControllerValues.HOME.screen,
-            onClick = { navController.navigate(NavigationControllerValues.HOME.screen) },
+        NavigationBarItem(selected = navController.currentDestination?.route == Screen.Home.route,
+            onClick = { navController.navigate(Screen.Home.route) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.home),
@@ -75,8 +100,8 @@ fun BottomNavigationBarComposable(navController: NavController) {
                     modifier = Modifier.size(20.dp)
                 )
             })
-        NavigationBarItem(selected = navController.currentDestination?.route == NavigationControllerValues.SEARCH.screen,
-            onClick = { navController.navigate(NavigationControllerValues.SEARCH.screen) },
+        NavigationBarItem(selected = navController.currentDestination?.route == Screen.Search.route,
+            onClick = { navController.navigate(Screen.Search.route) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_search),
@@ -84,8 +109,8 @@ fun BottomNavigationBarComposable(navController: NavController) {
                     modifier = Modifier.size(20.dp)
                 )
             })
-        NavigationBarItem(selected = navController.currentDestination?.route == NavigationControllerValues.ADD.screen,
-            onClick = { navController.navigate(NavigationControllerValues.ADD.screen) },
+        NavigationBarItem(selected = navController.currentDestination?.route == Screen.Add.route,
+            onClick = { navController.navigate(Screen.Add.route) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_action_name),
@@ -93,8 +118,8 @@ fun BottomNavigationBarComposable(navController: NavController) {
                     modifier = Modifier.size(20.dp)
                 )
             })
-        NavigationBarItem(selected = navController.currentDestination?.route == NavigationControllerValues.LOGIN.screen,
-            onClick = { navController.navigate(NavigationControllerValues.LOGIN.screen) },
+        NavigationBarItem(selected = navController.currentDestination?.route == Screen.Reels.route,
+            onClick = { navController.navigate(Screen.Reels.route) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_reels),
@@ -102,8 +127,8 @@ fun BottomNavigationBarComposable(navController: NavController) {
                     modifier = Modifier.size(20.dp)
                 )
             })
-        NavigationBarItem(selected = navController.currentDestination?.route == NavigationControllerValues.PROFILE.screen,
-            onClick = { navController.navigate(NavigationControllerValues.PROFILE.screen) },
+        NavigationBarItem(selected = navController.currentDestination?.route == Screen.Profile.route,
+            onClick = { navController.navigate(Screen.Profile.route) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_person),
