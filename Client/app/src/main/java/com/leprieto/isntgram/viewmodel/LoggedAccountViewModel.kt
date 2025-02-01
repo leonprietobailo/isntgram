@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leprieto.isntgram.model.api.ProfileDto
 import com.leprieto.isntgram.repository.api.ProfileRepository
 import com.leprieto.isntgram.repository.db.UserDetailsLocalRepository
+import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +21,8 @@ class LoggedAccountViewModel @Inject constructor(
 ) : ViewModel() {
 
     var loadedState by mutableStateOf<ProfileDtoState>(ProfileDtoState.Idle)
+        private set
+    var updatedState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
 
     fun loadProfile() {
@@ -34,6 +38,17 @@ class LoggedAccountViewModel @Inject constructor(
                 } else {
                     ProfileDtoState.Error("Error fetching data from server.")
                 }
+            }
+        }
+    }
+
+    fun updateProfile(profileDto: ProfileDto) {
+        viewModelScope.launch {
+            val result = profileRepository.updateProfile(profileDto)
+            updatedState = if (result.isSuccess) {
+                GenericRequestState.Success(result.getOrNull())
+            } else {
+                GenericRequestState.Error("Error updating user profile.")
             }
         }
     }

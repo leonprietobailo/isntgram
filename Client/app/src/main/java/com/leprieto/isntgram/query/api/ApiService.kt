@@ -13,9 +13,15 @@ interface ApiService {
     @POST("auth/login")
     suspend fun login(@Body user: UserDetailsRemote): GenericApiResponse
 
+    // TODO: Replace with put.
     @POST("auth/register")
     suspend fun register(@Body userDetailsRemote: UserDetailsRemote): GenericApiResponse
 
     @GET("app/profiles/{userId}")
     suspend fun getProfile(@Path(value = "userId") id: String): ProfileDto
+
+    @POST("app/profiles/update")
+    suspend fun updateProfile(
+        @Body profileDto: ProfileDto
+    ): GenericApiResponse
 }
