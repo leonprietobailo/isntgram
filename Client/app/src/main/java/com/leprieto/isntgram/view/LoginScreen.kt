@@ -56,14 +56,14 @@ fun LoginScreenComposable(
             .padding(horizontal = 12.dp, vertical = 4.dp),
             value = username,
             onValueChange = { username = it },
-            placeholder = { Text(text = "Username") })
+            label = { Text(text = "Username") })
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             value = password,
             onValueChange = { password = it },
-            placeholder = { Text(text = "Password") },
+            label = { Text(text = "Password") },
             visualTransformation = PasswordVisualTransformation()
         )
         Button(modifier = Modifier
@@ -75,10 +75,9 @@ fun LoginScreenComposable(
                         id = username, password = password, email = null
                     )
                 )
-//                navController.navigate(NavigationControllerValues.LOGIN.name)
             }) {
             Box(
-                modifier = Modifier.height(24.dp)
+                modifier = Modifier.height(24.dp), contentAlignment = Alignment.Center
             ) {
                 when (loginState) {
                     is GenericRequestState.Error, GenericRequestState.Idle -> Text(text = "Login")

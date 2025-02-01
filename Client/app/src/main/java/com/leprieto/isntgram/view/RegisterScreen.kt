@@ -1,5 +1,6 @@
 package com.leprieto.isntgram.view
 
+import android.util.Patterns
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,12 @@ fun RegisterScreenComposable(
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     val registerState = userDetailsViewModel.registerState
+
+    val usernameError = username.length < 3
+    val emailError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    val passwordError = confirmPassword.isNotEmpty() && password != confirmPassword
+    val enableRegister =
+        username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && !usernameError && !emailError && !passwordError
     LaunchedEffect(key1 = registerState) {
         if (registerState is GenericRequestState.Success) {
             navController.navigate(NavigationControllerValues.LOGIN.name)
@@ -58,21 +65,25 @@ fun RegisterScreenComposable(
             .padding(horizontal = 12.dp, vertical = 4.dp),
             value = username,
             onValueChange = { username = it },
-            placeholder = { Text(text = "Username") })
-        TextField(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 4.dp),
+            label = { Text(text = "Username") })
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 4.dp),
             value = email,
             onValueChange = { email = it },
-            placeholder = { Text(text = "Email") })
+            label = { Text(text = "Email") },
+            isError = emailError
+        )
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             value = password,
             onValueChange = { password = it },
-            placeholder = { Text(text = "Password") },
-            visualTransformation = PasswordVisualTransformation()
+            label = { Text(text = "Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            isError = passwordError
         )
         TextField(
             modifier = Modifier
@@ -80,17 +91,22 @@ fun RegisterScreenComposable(
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            placeholder = { Text(text = "Confirm Password") },
-            visualTransformation = PasswordVisualTransformation()
+            label = { Text(text = "Confirm Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            isError = passwordError
         )
-        Button(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 4.dp),
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
                 userDetailsViewModel.register(UserDetailsRemote(username, password, email))
-            }) {
+            },
+            enabled = enableRegister
+        ) {
+
             Box(
-                modifier = Modifier.height(24.dp)
+                modifier = Modifier.height(24.dp), contentAlignment = Alignment.Center
             ) {
                 when (registerState) {
                     is GenericRequestState.Error, GenericRequestState.Idle -> Text(text = "Register")
