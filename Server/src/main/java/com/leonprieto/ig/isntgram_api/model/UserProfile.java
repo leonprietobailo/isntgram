@@ -31,7 +31,7 @@ public class UserProfile {
 
   @Column(nullable = false)
   private Integer followers;
-
+  
   @Column(nullable = false)
   private Integer following;
 

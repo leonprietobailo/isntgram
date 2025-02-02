@@ -51,12 +51,12 @@ import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 
 @Composable
 fun SelfProfileMainComposable(
-    modifier: Modifier = Modifier.padding(12.dp),
+//    modifier: Modifier = Modifier.padding(12.dp),
     loadedState: ProfileDtoState,
     loadProfile: () -> Unit,
     editProfile: (String) -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column {
         when (loadedState) {
             is ProfileDtoState.Error -> {
                 ErrorStateComposable(loadProfile)
@@ -117,7 +117,7 @@ private fun ProfileTopBar(loadedState: ProfileDtoState.Success) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(horizontal = 12.dp)
-            .padding(top = 12.dp)
+//            .padding(top = 12.dp)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_lock),

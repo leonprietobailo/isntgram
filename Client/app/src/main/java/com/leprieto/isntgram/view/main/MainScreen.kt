@@ -23,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.util.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
-import com.leprieto.isntgram.view.EditProfileComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
 
@@ -65,7 +64,7 @@ fun MainScreenComposable() {
                     loggedAccountViewModel.loadProfile()
                 }
                 SelfProfileMainComposable(
-                    loadedState = loggedAccountViewModel.loadedState,
+                    loadedState = loggedAccountViewModel.selfLoadState,
                     loadProfile = loggedAccountViewModel::loadProfile,
                     editProfile = mainNavController::navigate
                 )
@@ -76,8 +75,8 @@ fun MainScreenComposable() {
                     loggedAccountViewModel.loadProfile()
                 }
                 EditProfileComposable(
-                    loadedState = loggedAccountViewModel.loadedState,
-                    updatedState = loggedAccountViewModel.updatedState,
+                    loadedState = loggedAccountViewModel.selfLoadState,
+                    updatedState = loggedAccountViewModel.selfUpdateState,
 //                    loadProfile = loggedAccountViewModel::loadProfile,
                     updateProfile = loggedAccountViewModel::updateProfile,
                     navigateBack = mainNavController::popBackStack

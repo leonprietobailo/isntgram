@@ -26,4 +26,14 @@ class ProfileRepository @Inject constructor(private val apiService: ApiService) 
             Result.failure(e)
         }
     }
+
+    suspend fun getProfiles(id: String): Result<List<ProfileDto>> {
+        return try {
+            val response: List<ProfileDto> = apiService.getProfilesByQuery(id)
+            Result.success(response)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
 }
