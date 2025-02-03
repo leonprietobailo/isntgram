@@ -52,6 +52,7 @@ import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 @Composable
 fun OtherProfileMainComposable(
 //    modifier: Modifier = Modifier.padding(12.dp),
+
     loadProfile: () -> Unit
 //    editProfile: (String) -> Unit
 ) {

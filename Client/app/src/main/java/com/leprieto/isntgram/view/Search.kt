@@ -3,6 +3,7 @@ package com.leprieto.isntgram.view
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,8 +41,8 @@ import com.leprieto.isntgram.viewmodel.states.SearchRequestState
 @Composable
 fun SearchMainComposable(
     searchRequestState: SearchRequestState,
-    navToProfile: (String) -> Unit,
-    searchProfile: (String) -> Unit
+    searchProfile: (String) -> Unit,
+    navToProfile: (String) -> Unit
 ) {
     Column {
         SearchBarComposable(searchProfile = searchProfile)
@@ -89,7 +90,10 @@ private fun ProfileEntriesComposable(
         SearchRequestState.Error -> ProfileEntriesErrorStateComposable()
         SearchRequestState.Idle, SearchRequestState.Loading -> ProfileEntriesLoadingStateComposable()
 
-        is SearchRequestState.Success -> ProfileEntriesSuccessStateComposable(searchRequestState)
+        is SearchRequestState.Success -> ProfileEntriesSuccessStateComposable(
+            searchRequestState = searchRequestState,
+            navToProfile = navToProfile
+        )
     }
 }
 
@@ -117,12 +121,15 @@ private fun ProfileEntriesLoadingStateComposable() {
 }
 
 @Composable
-private fun ProfileEntriesSuccessStateComposable(searchRequestState: SearchRequestState.Success) {
+private fun ProfileEntriesSuccessStateComposable(
+    searchRequestState: SearchRequestState.Success,
+    navToProfile: (String) -> Unit
+) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(count = searchRequestState.profiles.size,
             key = { index -> searchRequestState.profiles[index].userId }) { index ->
-            val profile = searchRequestState.profiles[index]
-            ProfileEntryComposable(profile) {}
+            val profileDto = searchRequestState.profiles[index]
+            ProfileEntryComposable(profileDto = profileDto, navToProfile = navToProfile)
         }
     }
 }
@@ -132,7 +139,8 @@ private fun ProfileEntryComposable(profileDto: ProfileDto, navToProfile: (String
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { navToProfile("profile/${profileDto.userId}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

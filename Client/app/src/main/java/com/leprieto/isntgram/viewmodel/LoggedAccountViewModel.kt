@@ -10,7 +10,6 @@ import com.leprieto.isntgram.repository.api.ProfileRepository
 import com.leprieto.isntgram.repository.db.UserDetailsLocalRepository
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
-import com.leprieto.isntgram.viewmodel.states.SearchRequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,8 +24,8 @@ class LoggedAccountViewModel @Inject constructor(
         private set
     var selfUpdateState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
-    var searchRequestState by mutableStateOf<SearchRequestState>(SearchRequestState.Idle)
-        private set
+//    var searchRequestState by mutableStateOf<SearchRequestState>(SearchRequestState.Idle)
+//        private set
 
     fun loadProfile() {
         viewModelScope.launch {
@@ -56,14 +55,14 @@ class LoggedAccountViewModel @Inject constructor(
         }
     }
 
-    fun searchProfiles(id: String) {
-        viewModelScope.launch {
-            val result = profileRepository.getProfiles(id)
-            searchRequestState = if (result.isSuccess) {
-                SearchRequestState.Success(result.getOrNull()!!)
-            } else {
-                SearchRequestState.Error
-            }
-        }
-    }
+//    fun searchProfiles(id: String) {
+//        viewModelScope.launch {
+//            val result = profileRepository.getProfiles(id)
+//            searchRequestState = if (result.isSuccess) {
+//                SearchRequestState.Success(result.getOrNull()!!)
+//            } else {
+//                SearchRequestState.Error
+//            }
+//        }
+//    }
 }
