@@ -69,6 +69,17 @@ fun MainScreenComposable() {
                     editProfile = mainNavController::navigate
                 )
             }
+            composable(Screen.OtherProfile.route) {
+                val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
+                LaunchedEffect(key1 = Unit) {
+                    loggedAccountViewModel.loadProfile()
+                }
+                OtherProfileMainComposable {
+                    loadedState = loggedAccountViewModel.selfLoadState,
+                    loadProfile = loggedAccountViewModel::loadProfile,
+                    editProfile = mainNavController::navigate
+                }
+            }
             composable(Screen.EditProfile.route) {
                 val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
                 LaunchedEffect(key1 = Unit) {

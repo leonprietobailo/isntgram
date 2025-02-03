@@ -1,7 +1,8 @@
 package com.leprieto.isntgram.view
 
-//import androidx.compose.foundation.layout.FlowRowScopeInstance.align
-//import androidx.compose.material3.TextField
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -23,32 +25,32 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import com.leprieto.isntgram.R
 import com.leprieto.isntgram.model.api.ProfileDto
 import com.leprieto.isntgram.viewmodel.states.SearchRequestState
 
-//import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
-
 @Composable
 fun SearchMainComposable(
-    modifier: Modifier = Modifier.padding(12.dp),
-//    remoteUserViewModel: RemoteUserViewModel,
-    navController: NavHostController
+    searchRequestState: SearchRequestState,
+    navToProfile: (String) -> Unit,
+    searchProfile: (String) -> Unit
 ) {
-//    SearchBar(
-//        modifier,
-//        remoteUserViewModel,
-//        navController
-//    )
+    Column {
+        SearchBarComposable(searchProfile = searchProfile)
+        ProfileEntriesComposable(
+            searchRequestState = searchRequestState, navToProfile = navToProfile
+        )
+    }
 }
 
-//class SearchBarProvider : PreviewParameterProvider<SearchRequestState> {
-//    override val values: Sequence<SearchRequestState> = listOf(SearchRequestState.Idle, SearchRequestState.Loading).asSequence()
-//}
 
 //@Preview
 @Composable
@@ -58,13 +60,11 @@ private fun SearchBarComposable(
     var searchedValue by remember { mutableStateOf("") }
     Column {
         Row {
-            TextField(
-                value = searchedValue,
+            TextField(value = searchedValue,
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { newValue ->
                     searchedValue = newValue // Evaluate if storing the value is required.
                     searchProfile(searchedValue)
-
                 },
                 label = {
                     Text("Search")
@@ -77,26 +77,17 @@ private fun SearchBarComposable(
                     )
                 })
         }
-//        LazyColumn(modifier = modifier.fillMaxWidth()) {
-//            items(
-//                filteredItems.value,
-//            ) {
-//                ResultEntry(it, navController)
-//            }
-//        }
     }
 }
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
 private fun ProfileEntriesComposable(
-    @PreviewParameter(SearchBarProvider::class) searchRequestState: SearchRequestState
+    @PreviewParameter(SearchBarProvider::class) searchRequestState: SearchRequestState,
+    navToProfile: (String) -> Unit
 ) {
-
     when (searchRequestState) {
         SearchRequestState.Error -> ProfileEntriesErrorStateComposable()
-        SearchRequestState.Idle,
-        SearchRequestState.Loading -> ProfileEntriesLoadingStateComposable()
+        SearchRequestState.Idle, SearchRequestState.Loading -> ProfileEntriesLoadingStateComposable()
 
         is SearchRequestState.Success -> ProfileEntriesSuccessStateComposable(searchRequestState)
     }
@@ -128,61 +119,53 @@ private fun ProfileEntriesLoadingStateComposable() {
 @Composable
 private fun ProfileEntriesSuccessStateComposable(searchRequestState: SearchRequestState.Success) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(
-            count = searchRequestState.profiles.size,
-            key = { index -> searchRequestState.profiles[index].userId }
-        ) { index ->
+        items(count = searchRequestState.profiles.size,
+            key = { index -> searchRequestState.profiles[index].userId }) { index ->
             val profile = searchRequestState.profiles[index]
-            ProfileEntryComposable(profile)
+            ProfileEntryComposable(profile) {}
         }
     }
 }
 
 @Composable
-private fun ProfileEntryComposable(profileDto: ProfileDto) {
-    Row(modifier = Modifier.fillMaxWidth()) {
-
+private fun ProfileEntryComposable(profileDto: ProfileDto, navToProfile: (String) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .border(BorderStroke(2.dp, Color.Gray), CircleShape),
+            painter = painterResource(id = R.drawable.ic_person),
+            contentDescription = "Profile Picture"
+        )
+        Column {
+            Text(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                fontWeight = FontWeight.Bold,
+                text = profileDto.userId
+            )
+            profileDto.name?.let {
+                Text(
+                    modifier = Modifier.padding(horizontal = 16.dp), text = it
+                )
+            }
+        }
     }
 }
-
-//@Composable
-//private fun ResultEntry(userDetailsRemote: UserDetailsRemote, navController: NavHostController) {
-//    Row(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(bottom = 6.dp)
-//            .clickable { navController.navigate("profile/${userDetailsRemote.id}") },
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        Image(
-//            modifier = Modifier
-//                .size(60.dp)
-//                .clip(CircleShape)
-//                .border(BorderStroke(2.dp, Color.Gray), CircleShape),
-//            painter = painterResource(id = R.drawable.ic_person),
-//            contentDescription = "Profile Picture"
-//        )
-//        Column {
-//            Text(
-//                modifier = Modifier.padding(horizontal = 16.dp),
-//                fontWeight = FontWeight.Bold,
-//                text = userDetailsRemote.id
-//            )
-////            Text(modifier = Modifier.padding(horizontal = 16.dp), text = userDetails.name)
-//        }
-//    }
-//}
 
 // PROVIDER OBJECTS.
 class SearchBarProvider : PreviewParameterProvider<SearchRequestState> {
     override val values: Sequence<SearchRequestState> = sequenceOf(
-        SearchRequestState.Idle,
-        SearchRequestState.Error,
-        SearchRequestState.Success(
+        SearchRequestState.Idle, SearchRequestState.Error, SearchRequestState.Success(
             listOf(
                 ProfileDto("omega", "León", "", 0, 0, 0),
                 ProfileDto("alpha", "Foo Bar", "", 0, 0, 0),
-                ProfileDto("beta", "Baz", "", 0, 0, 0),
+                ProfileDto("beta", null, "", 0, 0, 0),
             )
         )
     )
@@ -196,5 +179,13 @@ private fun SearchBarComposablePreview() {
     SearchBarComposable {
 
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun SearchMainComposablePreview(@PreviewParameter(SearchBarProvider::class) searchRequestState: SearchRequestState) {
+    SearchMainComposable(searchRequestState = searchRequestState,
+        navToProfile = {},
+        searchProfile = {})
 }
 
