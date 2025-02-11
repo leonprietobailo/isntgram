@@ -8,6 +8,7 @@ fun String.toScreen(): Screen = when (this) {
     Screen.Add.route -> Screen.Add
     Screen.Reels.route -> Screen.Reels
     Screen.Profile.route -> Screen.Profile
+    Screen.OtherProfile.route -> Screen.OtherProfile
     Screen.EditProfile.route -> Screen.EditProfile
 //    Screen.Home.route -> Screen.Home
 //    Screen.Home.route -> Screen.Home

@@ -23,9 +23,10 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.util.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
-import com.leprieto.isntgram.view.EditProfileComposable
+import com.leprieto.isntgram.view.SearchMainComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
+import com.leprieto.isntgram.viewmodel.ProfileViewModel
 
 
 @Composable
@@ -38,9 +39,9 @@ fun MainScreenComposable() {
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (currentScreen?.showBottomBar == true) {
-                BottomNavigationBarComposable(navController = mainNavController)
-            }
+//            if (currentScreen?.showBottomBar == true) {
+            BottomNavigationBarComposable(navController = mainNavController)
+//            }
         }) { paddingValues: PaddingValues ->
         NavHost(
             navController = mainNavController,
@@ -51,7 +52,12 @@ fun MainScreenComposable() {
                 DummyScreenComposable()
             }
             composable(Screen.Search.route) {
-                DummyScreenComposable()
+                val profileViewModel: ProfileViewModel = hiltViewModel()
+                SearchMainComposable(
+                    searchRequestState = profileViewModel.searchProfilesState,
+                    searchProfile = profileViewModel::searchProfiles,
+                    navToProfile = mainNavController::navigate
+                )
             }
             composable(Screen.Add.route) {
                 DummyScreenComposable()
@@ -65,10 +71,24 @@ fun MainScreenComposable() {
                     loggedAccountViewModel.loadProfile()
                 }
                 SelfProfileMainComposable(
-                    loadedState = loggedAccountViewModel.loadedState,
+                    loadedState = loggedAccountViewModel.selfLoadState,
                     loadProfile = loggedAccountViewModel::loadProfile,
                     editProfile = mainNavController::navigate
                 )
+            }
+            composable(Screen.OtherProfile.route) { navBackStackEntry ->
+                val profileId = navBackStackEntry.arguments?.getString("profileId")
+                val profileViewModel: ProfileViewModel = hiltViewModel()
+                profileId?.let {
+                    LaunchedEffect(key1 = Unit) {
+                        profileViewModel.loadProfile(it)
+                    }
+                    OtherProfileMainComposable(
+                        loadedState = profileViewModel.loadProfileState,
+                        loadProfile = { (profileViewModel::loadProfile)(it) }
+                    )
+                }
+
             }
             composable(Screen.EditProfile.route) {
                 val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
@@ -76,8 +96,8 @@ fun MainScreenComposable() {
                     loggedAccountViewModel.loadProfile()
                 }
                 EditProfileComposable(
-                    loadedState = loggedAccountViewModel.loadedState,
-                    updatedState = loggedAccountViewModel.updatedState,
+                    loadedState = loggedAccountViewModel.selfLoadState,
+                    updatedState = loggedAccountViewModel.selfUpdateState,
 //                    loadProfile = loggedAccountViewModel::loadProfile,
                     updateProfile = loggedAccountViewModel::updateProfile,
                     navigateBack = mainNavController::popBackStack

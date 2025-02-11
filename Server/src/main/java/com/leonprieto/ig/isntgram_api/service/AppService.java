@@ -6,6 +6,7 @@ import com.leonprieto.ig.isntgram_api.repository.IProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,10 @@ public class AppService {
 
   public UserProfile updateProfile(UserProfile userProfile) {
     return profileRepository.save(userProfile);
+  }
+
+  public List<UserProfile> searchProile(String userId) {
+    return profileRepository.findByUserIdContainingIgnoreCaseOrNameContainingIgnoreCase(userId,
+        userId);
   }
 }

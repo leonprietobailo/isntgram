@@ -20,16 +20,18 @@ class LoggedAccountViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
-    var loadedState by mutableStateOf<ProfileDtoState>(ProfileDtoState.Idle)
+    var selfLoadState by mutableStateOf<ProfileDtoState>(ProfileDtoState.Idle)
         private set
-    var updatedState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
+    var selfUpdateState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
+//    var searchRequestState by mutableStateOf<SearchRequestState>(SearchRequestState.Idle)
+//        private set
 
     fun loadProfile() {
         viewModelScope.launch {
-            loadedState = ProfileDtoState.Loading
+            selfLoadState = ProfileDtoState.Loading
             val user = userDetailsLocalRepository.getUser()
-            loadedState = if (user == null) {
+            selfLoadState = if (user == null) {
                 ProfileDtoState.Error("User is not logged in.")
             } else {
                 val result = profileRepository.getProfile(user.id)
@@ -45,11 +47,22 @@ class LoggedAccountViewModel @Inject constructor(
     fun updateProfile(profileDto: ProfileDto) {
         viewModelScope.launch {
             val result = profileRepository.updateProfile(profileDto)
-            updatedState = if (result.isSuccess) {
+            selfUpdateState = if (result.isSuccess) {
                 GenericRequestState.Success(result.getOrNull())
             } else {
                 GenericRequestState.Error("Error updating user profile.")
             }
         }
     }
+
+//    fun searchProfiles(id: String) {
+//        viewModelScope.launch {
+//            val result = profileRepository.getProfiles(id)
+//            searchRequestState = if (result.isSuccess) {
+//                SearchRequestState.Success(result.getOrNull()!!)
+//            } else {
+//                SearchRequestState.Error
+//            }
+//        }
+//    }
 }

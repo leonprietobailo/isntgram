@@ -46,15 +46,12 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.model.api.ProfileDto
-import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 
 @Composable
-fun SelfProfileMainComposable(
-//    modifier: Modifier = Modifier.padding(12.dp),
+fun OtherProfileMainComposable(
     loadedState: ProfileDtoState,
-    loadProfile: () -> Unit,
-    editProfile: (String) -> Unit
+    loadProfile: () -> Unit
 ) {
     Column {
         when (loadedState) {
@@ -67,7 +64,7 @@ fun SelfProfileMainComposable(
             }
 
             is ProfileDtoState.Success -> {
-                LoadedStateComposable(loadedState = loadedState, editProfile = editProfile)
+                LoadedStateComposable(loadedState = loadedState)
             }
         }
     }
@@ -94,7 +91,7 @@ private fun ErrorStateComposable(loadProfile: () -> Unit) {
     ) {
         Text(text = "Error while obtaining user profile.")
         Spacer(modifier = Modifier.size(4.dp))
-        Button(onClick = { loadProfile() }) {
+        Button(onClick = loadProfile) {
             Text(text = "Reload")
         }
     }
@@ -102,12 +99,12 @@ private fun ErrorStateComposable(loadProfile: () -> Unit) {
 
 @Composable
 private fun LoadedStateComposable(
-    loadedState: ProfileDtoState.Success, editProfile: (String) -> Unit
+    loadedState: ProfileDtoState.Success
 ) {
     ProfileTopBar(loadedState)
     ProfileStatsComposable(loadedState)
     NameAndDescriptionComposable(loadedState)
-    FollowMessageButtons(editProfile = editProfile)
+    FollowMessageButtons()
     TabSelectorComposable()
 }
 
@@ -117,7 +114,6 @@ private fun ProfileTopBar(loadedState: ProfileDtoState.Success) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(horizontal = 12.dp)
-//            .padding(top = 12.dp)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_lock),
@@ -201,18 +197,18 @@ private fun NameAndDescriptionComposable(loadedState: ProfileDtoState.Success) {
 }
 
 @Composable
-private fun FollowMessageButtons(editProfile: (String) -> Unit) {
+private fun FollowMessageButtons() {
     Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
         FilledTonalButton(modifier = Modifier.weight(4f),
             shape = RoundedCornerShape(12.dp),
-            onClick = { editProfile(Screen.EditProfile.route) }) {
-            Text("Edit profile")
+            onClick = { }) {
+            Text("Follow")
         }
         Spacer(modifier = Modifier.size(8.dp))
         FilledTonalButton(modifier = Modifier.weight(4f),
             shape = RoundedCornerShape(12.dp),
-            onClick = {}) {
-            Text("Share profile")
+            onClick = { }) {
+            Text("Message")
         }
         Spacer(modifier = Modifier.size(8.dp))
         FilledTonalButton(modifier = Modifier.weight(1f),

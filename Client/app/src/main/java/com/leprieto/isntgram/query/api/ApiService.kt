@@ -24,4 +24,7 @@ interface ApiService {
     suspend fun updateProfile(
         @Body profileDto: ProfileDto
     ): GenericApiResponse
+
+    @GET("app/profiles/search/{query}")
+    suspend fun getProfilesByQuery(@Path(value = "query") id: String): List<ProfileDto>
 }

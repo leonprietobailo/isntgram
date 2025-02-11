@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.view
+package com.leprieto.isntgram.view.main
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
