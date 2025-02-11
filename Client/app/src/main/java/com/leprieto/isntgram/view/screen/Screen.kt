@@ -10,7 +10,7 @@ sealed class Screen(val route: String, val showBottomBar: Boolean) {
     data object Add : Screen("add", true)
     data object Reels : Screen("reels", true)
     data object Profile : Screen("profile", true)
-    data object OtherProfile : Screen("other_profile", true)
+    data object OtherProfile : Screen("profile/{profileId}", true)
 
     // Opt
     data object EditProfile : Screen("edit_profile", false)

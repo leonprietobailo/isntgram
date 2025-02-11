@@ -26,6 +26,7 @@ public class AppService {
   }
 
   public List<UserProfile> searchProile(String userId) {
-    return profileRepository.findByUserIdContainingIgnoreCase(userId);
+    return profileRepository.findByUserIdContainingIgnoreCaseOrNameContainingIgnoreCase(userId,
+        userId);
   }
 }

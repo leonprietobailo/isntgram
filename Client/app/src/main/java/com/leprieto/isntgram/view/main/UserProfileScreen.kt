@@ -107,7 +107,7 @@ private fun LoadedStateComposable(
     ProfileTopBar(loadedState)
     ProfileStatsComposable(loadedState)
     NameAndDescriptionComposable(loadedState)
-    ProfileManagementButtonsComposable(editProfile = editProfile)
+    FollowMessageButtons(editProfile = editProfile)
     TabSelectorComposable()
 }
 
@@ -201,7 +201,7 @@ private fun NameAndDescriptionComposable(loadedState: ProfileDtoState.Success) {
 }
 
 @Composable
-private fun ProfileManagementButtonsComposable(editProfile: (String) -> Unit) {
+private fun FollowMessageButtons(editProfile: (String) -> Unit) {
     Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
         FilledTonalButton(modifier = Modifier.weight(4f),
             shape = RoundedCornerShape(12.dp),
