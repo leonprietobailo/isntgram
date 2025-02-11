@@ -1,7 +1,9 @@
 package com.leonprieto.ig.isntgram_api.controller;
 
+import com.leonprieto.ig.isntgram_api.model.Posts;
 import com.leonprieto.ig.isntgram_api.model.UserProfile;
 import com.leonprieto.ig.isntgram_api.service.AppService;
+import com.leonprieto.ig.isntgram_api.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,15 @@ import java.util.Optional;
 @RequestMapping("/api/app")
 public class AppController {
 
+  private final AppService appService;
+
+  private final PostService postService;
+
   @Autowired
-  private AppService appService;
+  public AppController(AppService appService, PostService postService) {
+    this.appService = appService;
+    this.postService = postService;
+  }
 
   @GetMapping("profiles/{userId}")
   public ResponseEntity<UserProfile> getProfile(@PathVariable String userId) {
@@ -36,6 +45,11 @@ public class AppController {
   @GetMapping("profiles/search/{query}")
   public List<UserProfile> getProfilesByQuery(@PathVariable String query) {
     return appService.searchProile(query);
+  }
+
+  @GetMapping("profiles/{userId}/posts")
+  public List<Posts> getAllPosts(@PathVariable String userId) {
+    return postService.getAllPosts(userId);
   }
 
 }
