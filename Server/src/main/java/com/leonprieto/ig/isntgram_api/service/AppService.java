@@ -12,8 +12,12 @@ import java.util.Optional;
 @Service
 public class AppService {
 
+  private final IProfileRepository profileRepository;
+
   @Autowired
-  private IProfileRepository profileRepository;
+  public AppService(IProfileRepository profileRepository) {
+    this.profileRepository = profileRepository;
+  }
 
   public Optional<UserProfile> getProfile(String userId) {
     final Users user = new Users();
