@@ -23,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.util.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
-import com.leprieto.isntgram.view.SearchMainComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
 import com.leprieto.isntgram.viewmodel.ProfileViewModel
@@ -60,7 +59,7 @@ fun MainScreenComposable() {
                 )
             }
             composable(Screen.Add.route) {
-                DummyScreenComposable()
+                ImageUploadMainComposable()
             }
             composable(Screen.Reels.route) {
                 DummyScreenComposable()
