@@ -6,6 +6,7 @@ import com.leonprieto.ig.isntgram_api.service.AppService;
 import com.leonprieto.ig.isntgram_api.service.PostService;
 import com.leonprieto.ig.isntgram_api.service.response.GenericApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,15 +52,15 @@ public class AppController {
     return appService.searchProile(query);
   }
 
-  @PostMapping("upload/posts")
-  public ResponseEntity<GenericApiResponse> uploadPost(@RequestParam String userId,
-      @RequestParam MultipartFile file) {
+  @PostMapping(value = "upload/posts/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<GenericApiResponse> uploadPost(@PathVariable String userId,
+      @RequestParam("image") MultipartFile file) {
     if (file.isEmpty()) {
       return ResponseEntity.badRequest().build();
     }
     try {
       postService.savePost(userId, file);
-      return ResponseEntity.ok().build();
+      return ResponseEntity.ok(new GenericApiResponse(true, "Post uploaded successfully"));
     } catch (IOException e) {
       return ResponseEntity.internalServerError().build();
     }

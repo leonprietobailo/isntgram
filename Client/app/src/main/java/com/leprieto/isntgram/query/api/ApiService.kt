@@ -32,9 +32,9 @@ interface ApiService {
     suspend fun getProfilesByQuery(@Path(value = "query") id: String): List<ProfileDto>
 
     @Multipart
-    @POST("api/app/upload/posts")
+    @POST("app/upload/posts/{userId}")
     suspend fun uploadPost(
-        @Part("userId") userId: String,
+        @Path("userId") userId: String,
         @Part part: MultipartBody.Part
     ): GenericApiResponse
 }

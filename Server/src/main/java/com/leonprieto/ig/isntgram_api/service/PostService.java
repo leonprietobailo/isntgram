@@ -4,6 +4,7 @@ import com.leonprieto.ig.isntgram_api.config.ImageConfig;
 import com.leonprieto.ig.isntgram_api.model.Posts;
 import com.leonprieto.ig.isntgram_api.model.Users;
 import com.leonprieto.ig.isntgram_api.repository.IPostRepository;
+import com.leonprieto.ig.isntgram_api.utils.FileTypeDetectionUtils;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,8 @@ public class PostService {
 
   public void savePost(String userId, MultipartFile file) throws IOException {
     Path path = Paths.get(
-        imageConfig.getPath() + UUID.randomUUID().toString() + file.getOriginalFilename());
-    while (!path.toFile().exists()) {
-      path = Paths.get(
-          imageConfig.getPath() + UUID.randomUUID().toString() + file.getOriginalFilename());
-    }
+        imageConfig.getPath() + UUID.randomUUID() + "." + FileTypeDetectionUtils.detectFileExtension(
+            file));
     Files.write(path, file.getBytes());
     final Posts post = new Posts();
     post.setUrl(path.getFileName().toString());
