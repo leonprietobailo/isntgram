@@ -13,13 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 
 @Composable
 fun LandingScreenComposable(
-    navController: NavController,
+    navigate: (String) -> Unit,
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     Column(
@@ -31,14 +30,14 @@ fun LandingScreenComposable(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            onClick = { navController.navigate(NavigationControllerValues.LOGIN.screen) }) {
+            onClick = { navigate(NavigationControllerValues.LOGIN.screen) }) {
             Text(text = "Login")
         }
         FilledTonalButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            onClick = { navController.navigate(NavigationControllerValues.REGISTER.screen) }) {
+            onClick = { navigate(NavigationControllerValues.REGISTER.screen) }) {
             Text(text = "Register")
         }
     }
@@ -47,5 +46,5 @@ fun LandingScreenComposable(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LandingScreenComposablePreview() {
-    LandingScreenComposable(navController = rememberNavController())
+    LandingScreenComposable( navigate = {})
 }

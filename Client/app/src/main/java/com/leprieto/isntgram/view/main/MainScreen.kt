@@ -26,11 +26,11 @@ import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
 import com.leprieto.isntgram.viewmodel.PostViewModel
 import com.leprieto.isntgram.viewmodel.ProfileViewModel
-import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
+import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 
 
 @Composable
-fun MainScreenComposable() {
+fun MainScreenComposable(loginState: UserDetailsState.Success) {
     val mainNavController = rememberNavController()
     val navBackStackEntry = mainNavController.currentBackStackEntry
     val currentRoute = navBackStackEntry?.destination?.route
@@ -59,9 +59,9 @@ fun MainScreenComposable() {
                 )
             }
             composable(Screen.Add.route) {
-                val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
                 val postViewModel: PostViewModel = hiltViewModel()
                 ImageUploadMainComposable(
+                    loginState,
                     postViewModel.imagePostedState,
                     postViewModel::uploadImage
                 )

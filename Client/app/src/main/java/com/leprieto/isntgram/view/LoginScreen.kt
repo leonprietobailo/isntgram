@@ -23,27 +23,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.leprieto.isntgram.model.api.UserDetailsRemote
+import com.leprieto.isntgram.model.api.UserDetails
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
-import com.leprieto.isntgram.viewmodel.UserDetailsViewModel
-import com.leprieto.isntgram.viewmodel.states.GenericRequestState
+import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 
 
 @Composable
 fun LoginScreenComposable(
-    navController: NavController,
-    userDetailsViewModel: UserDetailsViewModel = hiltViewModel(),
+    loginState: UserDetailsState,
+    navigate: (String) -> Unit,
+    login: (UserDetails) -> Unit,
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val loginState = userDetailsViewModel.loginState
     LaunchedEffect(key1 = loginState) {
-        if (loginState is GenericRequestState.Success) {
-            navController.navigate(NavigationControllerValues.MAIN.screen)
+        if (loginState is UserDetailsState.Success) {
+            navigate(NavigationControllerValues.MAIN.screen)
         }
     }
     Column(
@@ -70,8 +66,8 @@ fun LoginScreenComposable(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
-                userDetailsViewModel.login(
-                    UserDetailsRemote(
+                login(
+                    UserDetails(
                         id = username, password = password, email = null
                     )
                 )
@@ -80,14 +76,14 @@ fun LoginScreenComposable(
                 modifier = Modifier.height(24.dp), contentAlignment = Alignment.Center
             ) {
                 when (loginState) {
-                    is GenericRequestState.Error, GenericRequestState.Idle -> Text(text = "Login")
-                    GenericRequestState.Loading -> CircularProgressIndicator(
+                    is UserDetailsState.Error, UserDetailsState.Idle -> Text(text = "Login")
+                    UserDetailsState.Loading -> CircularProgressIndicator(
                         modifier = Modifier.size(
                             24.dp
                         ), color = Color.White
                     )
 
-                    is GenericRequestState.Success -> {
+                    is UserDetailsState.Success -> {
                         Text(text = "Success")
                     }
                 }
@@ -99,5 +95,5 @@ fun LoginScreenComposable(
 //@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenComposablePreview() {
-    LoginScreenComposable(navController = rememberNavController())
+//    LoginScreenComposable(navigate = {})
 }

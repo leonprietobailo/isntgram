@@ -34,19 +34,22 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.leprieto.isntgram.model.api.PostDto
+import com.leprieto.isntgram.model.db.UserDetailsLocal
 import com.leprieto.isntgram.util.toFile
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
+import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 import java.io.File
 
 
 @Composable
 fun ImageUploadMainComposable(
+    loginState: UserDetailsState.Success,
     imagePostedState: GenericRequestState,
     uploadPost: (PostDto, File) -> Unit
 ) {
     when (imagePostedState) {
         is GenericRequestState.Error -> ImageUploadErrorComposable()
-        GenericRequestState.Idle -> ImageUploadIdleComposable(uploadPost)
+        GenericRequestState.Idle -> ImageUploadIdleComposable(loginState, uploadPost)
         GenericRequestState.Loading -> ImageUploadLoadingComposable()
         is GenericRequestState.Success -> ImageUploadSuccessComposable()
     }
@@ -55,6 +58,7 @@ fun ImageUploadMainComposable(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageUploadIdleComposable(
+    loginState: UserDetailsState.Success,
     uploadPost: (PostDto, File) -> Unit
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
@@ -110,7 +114,7 @@ fun ImageUploadIdleComposable(
             onClick = {
                 imageUri?.let {
                     uploadPost(
-                        PostDto("omega", caption),
+                        PostDto(loginState.userDetailsLocal.id, caption),
                         it.toFile(current)
                     )
                 }
@@ -172,7 +176,10 @@ fun ImageUploadMainComposableOld(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun ImageUploadMainComposablePreview(@PreviewParameter(UploadPictureProvider::class) imagePostedState: GenericRequestState) {
-    ImageUploadMainComposable(imagePostedState = imagePostedState) { postDto: PostDto, file: File ->
+    ImageUploadMainComposable(
+        loginState = UserDetailsState.Success(UserDetailsLocal("omega", "")),
+        imagePostedState = imagePostedState
+    ) { postDto: PostDto, file: File ->
     }
 }
 
