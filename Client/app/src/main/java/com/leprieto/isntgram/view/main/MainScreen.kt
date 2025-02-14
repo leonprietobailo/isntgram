@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,15 +22,15 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.util.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
-import com.leprieto.isntgram.view.SearchMainComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
+import com.leprieto.isntgram.viewmodel.PostViewModel
 import com.leprieto.isntgram.viewmodel.ProfileViewModel
+import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 
 
 @Composable
-@Preview(showSystemUi = true, showBackground = true)
-fun MainScreenComposable() {
+fun MainScreenComposable(loginState: UserDetailsState.Success) {
     val mainNavController = rememberNavController()
     val navBackStackEntry = mainNavController.currentBackStackEntry
     val currentRoute = navBackStackEntry?.destination?.route
@@ -60,7 +59,12 @@ fun MainScreenComposable() {
                 )
             }
             composable(Screen.Add.route) {
-                DummyScreenComposable()
+                val postViewModel: PostViewModel = hiltViewModel()
+                ImageUploadMainComposable(
+                    loginState,
+                    postViewModel.imagePostedState,
+                    postViewModel::uploadImage
+                )
             }
             composable(Screen.Reels.route) {
                 DummyScreenComposable()

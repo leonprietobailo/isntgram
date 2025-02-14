@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.ui.theme.IsntGramTheme
 import com.leprieto.isntgram.view.main.MainScreenComposable
+import com.leprieto.isntgram.viewmodel.UserDetailsViewModel
+import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 import dagger.hilt.android.AndroidEntryPoint
 import com.leprieto.isntgram.view.enums.NavigationControllerValues as NVC
 
@@ -26,6 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             IsntGramTheme {
                 val navController = rememberNavController()
+                val userDetailsViewModel: UserDetailsViewModel = hiltViewModel()
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
 //                    bottomBar = { BottomNavigationBar(navController) }
@@ -36,16 +40,24 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(NVC.LANDING.screen) {
-                            LandingScreenComposable(navController = navController)
+                            LandingScreenComposable(navController::navigate)
                         }
                         composable(NVC.REGISTER.screen) {
-                            RegisterScreenComposable(navController = navController)
+                            RegisterScreenComposable(
+                                userDetailsViewModel.registerState,
+                                navController::navigate,
+                                userDetailsViewModel::register
+                            )
                         }
                         composable(NVC.LOGIN.screen) {
-                            LoginScreenComposable(navController = navController)
+                            LoginScreenComposable(
+                                userDetailsViewModel.loginState,
+                                navController::navigate,
+                                userDetailsViewModel::login
+                            )
                         }
                         composable(NVC.MAIN.screen) {
-                            MainScreenComposable()
+                            MainScreenComposable(userDetailsViewModel.loginState as UserDetailsState.Success)
                         }
                         composable(NVC.DUMMY.screen) {
                             DummyScreenComposable()

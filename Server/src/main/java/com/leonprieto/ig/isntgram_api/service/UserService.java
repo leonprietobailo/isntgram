@@ -13,14 +13,19 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-  @Autowired
-  private IUserRepository userRepository;
+  private final IUserRepository userRepository;
+
+  private final IProfileRepository profileRepository;
+
+  private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  private IProfileRepository profileRepository;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
+  public UserService(IUserRepository userRepository, IProfileRepository profileRepository,
+      PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.profileRepository = profileRepository;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   public Users registerUser(Users user) {
     // Create profile

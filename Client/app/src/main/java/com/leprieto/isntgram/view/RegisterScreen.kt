@@ -26,24 +26,22 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.leprieto.isntgram.model.api.UserDetailsRemote
+import com.leprieto.isntgram.model.api.UserDetails
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 import com.leprieto.isntgram.viewmodel.UserDetailsViewModel
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 
 @Composable
 fun RegisterScreenComposable(
-    navController: NavController,
-    userDetailsViewModel: UserDetailsViewModel = hiltViewModel(),
+    registerState: GenericRequestState,
+    navigate: (String) -> Unit,
+    register: (UserDetails) -> Unit,
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    val registerState = userDetailsViewModel.registerState
 
     val usernameError = username.length < 3
     val emailError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -52,7 +50,7 @@ fun RegisterScreenComposable(
         username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && !usernameError && !emailError && !passwordError
     LaunchedEffect(key1 = registerState) {
         if (registerState is GenericRequestState.Success) {
-            navController.navigate(NavigationControllerValues.LOGIN.name)
+            navigate(NavigationControllerValues.LOGIN.name)
         }
     }
     Column(
@@ -100,7 +98,7 @@ fun RegisterScreenComposable(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
-                userDetailsViewModel.register(UserDetailsRemote(username, password, email))
+                register(UserDetails(username, password, email))
             },
             enabled = enableRegister
         ) {
@@ -128,5 +126,5 @@ fun RegisterScreenComposable(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RegisterScreenComposablePreview() {
-    RegisterScreenComposable(navController = rememberNavController())
+//    RegisterScreenComposable(navigate = {})
 }

@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.view
+package com.leprieto.isntgram.view.main
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
