@@ -1,5 +1,6 @@
 package com.leprieto.isntgram.query.api
 
+import com.leprieto.isntgram.model.api.PostDto
 import com.leprieto.isntgram.model.api.ProfileDto
 import com.leprieto.isntgram.model.api.UserDetails
 import com.leprieto.isntgram.query.api.response.GenericApiResponse
@@ -37,4 +38,8 @@ interface ApiService {
         @Path("userId") userId: String,
         @Part part: MultipartBody.Part
     ): GenericApiResponse
+
+    @GET("app/profiles/{userId}/posts")
+    suspend fun getPosts(@Path("userId") userId: String): List<PostDto>
+
 }

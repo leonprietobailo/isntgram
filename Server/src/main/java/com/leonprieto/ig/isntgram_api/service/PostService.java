@@ -50,4 +50,6 @@ public class PostService {
     post.setUser(entityManager.getReference(Users.class, userId));
     postRepository.save(post);
   }
+
+
 }

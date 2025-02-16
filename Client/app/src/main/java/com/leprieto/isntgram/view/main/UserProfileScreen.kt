@@ -40,21 +40,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.api.ProfileDto
 import com.leprieto.isntgram.view.screen.Screen
+import com.leprieto.isntgram.viewmodel.states.PostsState
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 
 @Composable
 fun SelfProfileMainComposable(
 //    modifier: Modifier = Modifier.padding(12.dp),
     loadedState: ProfileDtoState,
+    postsState: PostsState,
     loadProfile: () -> Unit,
-    editProfile: (String) -> Unit
+    editProfile: (String) -> Unit,
 ) {
     Column {
         when (loadedState) {
@@ -67,7 +67,11 @@ fun SelfProfileMainComposable(
             }
 
             is ProfileDtoState.Success -> {
-                LoadedStateComposable(loadedState = loadedState, editProfile = editProfile)
+                LoadedStateComposable(
+                    loadedState = loadedState,
+                    postsState = postsState as PostsState.Success, // Review
+                    editProfile = editProfile
+                )
             }
         }
     }
@@ -102,13 +106,15 @@ private fun ErrorStateComposable(loadProfile: () -> Unit) {
 
 @Composable
 private fun LoadedStateComposable(
-    loadedState: ProfileDtoState.Success, editProfile: (String) -> Unit
+    loadedState: ProfileDtoState.Success,
+    postsState: PostsState.Success,
+    editProfile: (String) -> Unit
 ) {
     ProfileTopBar(loadedState)
     ProfileStatsComposable(loadedState)
     NameAndDescriptionComposable(loadedState)
     FollowMessageButtons(editProfile = editProfile)
-    TabSelectorComposable()
+    TabSelectorComposable(postsState = postsState)
 }
 
 @Composable
@@ -230,6 +236,7 @@ private fun FollowMessageButtons(editProfile: (String) -> Unit) {
 
 @Composable
 private fun TabSelectorComposable(
+    postsState: PostsState.Success
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     Column(modifier = Modifier.padding(horizontal = 12.dp)) {
@@ -265,7 +272,7 @@ private fun TabSelectorComposable(
             })
         }
         when (selectedTab) {
-            0 -> TabDashboardComposable()
+            0 -> TabDashboardComposable(postsState = postsState)
             1 -> TabReelsComposable()
             2 -> TabTaggedComposable()
         }
@@ -273,17 +280,17 @@ private fun TabSelectorComposable(
 }
 
 @Composable
-private fun TabDashboardComposable() {
+private fun TabDashboardComposable(postsState: PostsState.Success) {
     LazyVerticalGrid(
         columns = Fixed(3),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        items(700) {
+        items(postsState.response.size) {
             Box(modifier = Modifier.aspectRatio(1f)) {
-                val picNumber = it + 1
+                val url = postsState.response[it].url
                 AsyncImage(
-                    model = "https://yavuzceliker.github.io/sample-images/image-$picNumber.jpg",
+                    model = url,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -319,15 +326,16 @@ private fun ProfileNumberIndicatorComposable(number: Int, text: String) {
 // *          PREVIEW           *
 // ******************************
 
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-private fun SelfProfileMainComposablePreview() {
-    SelfProfileMainComposable(loadedState =
-//        ProfileDtoState.Error("Message")
-    ProfileDtoState.Success(
-        ProfileDto(
-            "omega", "sample", "sample sample", 0, 0, 0
-        )
-    ), loadProfile = {}, editProfile = { })
-}
+//@Composable
+//@Preview(showBackground = true, showSystemUi = true)
+//private fun SelfProfileMainComposablePreview() {
+//    SelfProfileMainComposable(loadedState =
+////        ProfileDtoState.Error("Message")
+//    ProfileDtoState.Success(
+//        ProfileDto(
+//            "omega", "sample", "sample sample", 0, 0, 0
+//        )
+//    ), loadProfile = {}, editProfile = { }, postsState = postViewModel.loadedPosts
+//    )
+//}
 

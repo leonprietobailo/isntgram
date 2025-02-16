@@ -13,6 +13,10 @@ class PostRepository @Inject constructor(private val apiService: ApiService) {
     suspend fun uploadPost(postDto: PostDto, file: File) {
         val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
         val part = MultipartBody.Part.createFormData("image", file.name, requestBody)
-        apiService.uploadPost(postDto.userId, part)
+        apiService.uploadPost(postDto.user.id, part)
+    }
+
+    suspend fun getPosts(userId: String): List<PostDto> {
+        return apiService.getPosts(userId)
     }
 }

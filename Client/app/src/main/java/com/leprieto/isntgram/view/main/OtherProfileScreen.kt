@@ -40,12 +40,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.api.ProfileDto
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 
 @Composable
@@ -314,16 +312,4 @@ private fun ProfileNumberIndicatorComposable(number: Int, text: String) {
 // ******************************
 // *          PREVIEW           *
 // ******************************
-
-@Composable
-@Preview(showBackground = true, showSystemUi = true)
-private fun SelfProfileMainComposablePreview() {
-    SelfProfileMainComposable(loadedState =
-//        ProfileDtoState.Error("Message")
-    ProfileDtoState.Success(
-        ProfileDto(
-            "omega", "sample", "sample sample", 0, 0, 0
-        )
-    ), loadProfile = {}, editProfile = { })
-}
 
