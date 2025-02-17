@@ -29,6 +29,7 @@ public class FileTypeDetectionUtils {
       case "image/bmp" -> "bmp";
       case "image/png" -> "png";
       case "image/tiff" -> "tiff";
+      case "image/webp" -> "webp";
       default -> throw new IllegalArgumentException("Unsupported mime type: " + mimeType);
     };
   }

@@ -33,9 +33,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.leprieto.isntgram.ext.toFile
+import com.leprieto.isntgram.ext.toRemote
 import com.leprieto.isntgram.model.api.PostDto
 import com.leprieto.isntgram.model.db.UserDetailsLocal
-import com.leprieto.isntgram.util.toFile
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 import java.io.File
@@ -114,7 +115,7 @@ fun ImageUploadIdleComposable(
             onClick = {
                 imageUri?.let {
                     uploadPost(
-                        PostDto(loginState.userDetailsLocal.id, caption),
+                        PostDto(loginState.userDetailsLocal.toRemote(), null),
                         it.toFile(current)
                     )
                 }

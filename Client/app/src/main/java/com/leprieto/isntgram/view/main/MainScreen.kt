@@ -20,7 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.util.toScreen
+import com.leprieto.isntgram.ext.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
@@ -71,14 +71,18 @@ fun MainScreenComposable(loginState: UserDetailsState.Success) {
             }
             composable(Screen.Profile.route) {
                 val loggedAccountViewModel: LoggedAccountViewModel = hiltViewModel()
+                val postViewModel: PostViewModel = hiltViewModel()
                 LaunchedEffect(key1 = Unit) {
                     loggedAccountViewModel.loadProfile()
+                    postViewModel.getPosts(loginState.userDetailsLocal.id)
                 }
                 SelfProfileMainComposable(
                     loadedState = loggedAccountViewModel.selfLoadState,
+                    postsState = postViewModel.loadedPostsState,
                     loadProfile = loggedAccountViewModel::loadProfile,
-                    editProfile = mainNavController::navigate
-                )
+                    editProfile = mainNavController::navigate,
+
+                    )
             }
             composable(Screen.OtherProfile.route) { navBackStackEntry ->
                 val profileId = navBackStackEntry.arguments?.getString("profileId")

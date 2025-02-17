@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.util
+package com.leprieto.isntgram.ext
 
 import android.content.Context
 import android.net.Uri
