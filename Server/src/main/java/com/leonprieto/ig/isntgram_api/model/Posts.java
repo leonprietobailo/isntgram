@@ -1,6 +1,5 @@
 package com.leonprieto.ig.isntgram_api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +18,7 @@ public class Posts {
   private Long id;
 
   @ManyToOne
-  @JsonIgnore
+  //  @JsonIgnore
   @JoinColumn(name = "user_id", nullable = false)
   private Users user;
 

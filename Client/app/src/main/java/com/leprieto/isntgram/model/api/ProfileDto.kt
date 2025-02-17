@@ -1,5 +1,8 @@
 package com.leprieto.isntgram.model.api
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class ProfileDto(
     val userId: String,
     val name: String?,

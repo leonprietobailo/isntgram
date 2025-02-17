@@ -38,9 +38,9 @@ fun MainScreenComposable(loginState: UserDetailsState.Success) {
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (currentScreen?.showBottomBar == true) {
-                BottomNavigationBarComposable(navController = mainNavController)
-            }
+//            if (currentScreen?.showBottomBar == true) {
+            BottomNavigationBarComposable(navController = mainNavController)
+//            }
         }) { paddingValues: PaddingValues ->
         NavHost(
             navController = mainNavController,

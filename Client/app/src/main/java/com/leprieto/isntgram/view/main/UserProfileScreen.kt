@@ -288,7 +288,7 @@ private fun TabDashboardComposable(postsState: PostsState.Success) {
     ) {
         items(postsState.response.size) {
             Box(modifier = Modifier.aspectRatio(1f)) {
-                val url = postsState.response[it].url
+                val url = "http://192.168.1.150:8080/images/" + postsState.response[it].url
                 AsyncImage(
                     model = url,
                     contentDescription = null,

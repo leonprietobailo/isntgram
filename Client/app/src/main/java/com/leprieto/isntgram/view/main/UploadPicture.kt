@@ -115,7 +115,7 @@ fun ImageUploadIdleComposable(
             onClick = {
                 imageUri?.let {
                     uploadPost(
-                        PostDto(loginState.userDetailsLocal.toRemote(), caption, null),
+                        PostDto(loginState.userDetailsLocal.toRemote(), null),
                         it.toFile(current)
                     )
                 }

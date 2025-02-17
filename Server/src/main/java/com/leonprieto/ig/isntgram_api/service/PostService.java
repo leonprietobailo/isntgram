@@ -36,7 +36,7 @@ public class PostService {
   }
 
   public List<Posts> getAllPosts(String userId) {
-    return postRepository.findByUser_Id(userId);
+    return postRepository.findByUser_IdOrderByPostedDateDesc(userId);
   }
 
   public void savePost(String userId, MultipartFile file) throws IOException {
