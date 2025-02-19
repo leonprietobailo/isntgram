@@ -1,8 +1,8 @@
 package com.leonprieto.ig.isntgram_api.service;
 
 import com.leonprieto.ig.isntgram_api.config.ImageConfig;
-import com.leonprieto.ig.isntgram_api.model.Posts;
-import com.leonprieto.ig.isntgram_api.model.Users;
+import com.leonprieto.ig.isntgram_api.model.Post;
+import com.leonprieto.ig.isntgram_api.model.User;
 import com.leonprieto.ig.isntgram_api.repository.IPostRepository;
 import com.leonprieto.ig.isntgram_api.utils.FileTypeDetectionUtils;
 import jakarta.persistence.EntityManager;
@@ -35,7 +35,7 @@ public class PostService {
     this.entityManager = entityManager;
   }
 
-  public List<Posts> getAllPosts(String userId) {
+  public List<Post> getAllPosts(String userId) {
     return postRepository.findByUser_IdOrderByPostedDateDesc(userId);
   }
 
@@ -44,10 +44,10 @@ public class PostService {
         imageConfig.getPath() + UUID.randomUUID() + "." + FileTypeDetectionUtils.detectFileExtension(
             file));
     Files.write(path, file.getBytes());
-    final Posts post = new Posts();
+    final Post post = new Post();
     post.setUrl(path.getFileName().toString());
     post.setPostedDate(new Date());
-    post.setUser(entityManager.getReference(Users.class, userId));
+    post.setUser(entityManager.getReference(User.class, userId));
     postRepository.save(post);
   }
 

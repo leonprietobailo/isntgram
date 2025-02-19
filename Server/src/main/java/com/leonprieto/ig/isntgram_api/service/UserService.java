@@ -1,7 +1,7 @@
 package com.leonprieto.ig.isntgram_api.service;
 
-import com.leonprieto.ig.isntgram_api.model.UserProfile;
-import com.leonprieto.ig.isntgram_api.model.Users;
+import com.leonprieto.ig.isntgram_api.model.Profile;
+import com.leonprieto.ig.isntgram_api.model.User;
 import com.leonprieto.ig.isntgram_api.repository.IProfileRepository;
 import com.leonprieto.ig.isntgram_api.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ public class UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public Users registerUser(Users user) {
+  public User registerUser(User user) {
     // Create profile
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     // Generate and save associated entry for profile. TODO: Find if there is a better approach for this.
-    final UserProfile userProfile = new UserProfile();
+    final Profile userProfile = new Profile();
     userProfile.setUser(user);
     userProfile.setPosts(0);
     userProfile.setFollowers(0);
@@ -42,9 +42,9 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public boolean validateLogin(Users user) {
+  public boolean validateLogin(User user) {
     // Fetch password.
-    final Optional<Users> userName = userRepository.findById(user.getId());
+    final Optional<User> userName = userRepository.findById(user.getId());
     if (userName.isEmpty()) {
       return false;
     }

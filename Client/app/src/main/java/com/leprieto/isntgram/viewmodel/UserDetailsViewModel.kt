@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leprieto.isntgram.model.api.UserDetails
+import com.leprieto.isntgram.model.api.UserDto
 import com.leprieto.isntgram.model.db.UserDetailsLocal
 import com.leprieto.isntgram.repository.api.UserDetailsRemoteRepository
 import com.leprieto.isntgram.repository.db.UserDetailsLocalRepository
@@ -27,13 +27,13 @@ class UserDetailsViewModel @Inject constructor(
     var registerState by mutableStateOf<GenericRequestState>(GenericRequestState.Idle)
         private set
 
-    fun login(userDetails: UserDetails) {
+    fun login(userDto: UserDto) {
         viewModelScope.launch {
             loginState = UserDetailsState.Loading
-            val result = userDetailsRemoteRepository.login(userDetails)
+            val result = userDetailsRemoteRepository.login(userDto)
             loginState = if (result.success) {
                 // To persist locally.
-                val userDetailsLocal = UserDetailsLocal(userDetails.id, "")
+                val userDetailsLocal = UserDetailsLocal(userDto.id, "")
                 userDetailsLocalRepository.deleteAll()
                 userDetailsLocalRepository.insertUser(userDetailsLocal)
                 UserDetailsState.Success(userDetailsLocal)
@@ -43,10 +43,10 @@ class UserDetailsViewModel @Inject constructor(
         }
     }
 
-    fun register(userDetails: UserDetails) {
+    fun register(userDto: UserDto) {
         viewModelScope.launch {
             registerState = GenericRequestState.Loading
-            val result = userDetailsRemoteRepository.register(userDetails)
+            val result = userDetailsRemoteRepository.register(userDto)
             registerState = if (result.success) {
                 GenericRequestState.Success(result)
             } else {

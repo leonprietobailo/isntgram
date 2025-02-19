@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Users {
+public class User {
 
   @Id
   private String id;
@@ -20,7 +20,7 @@ public class Users {
 
   @JoinColumn(nullable = false)
   @OneToOne(mappedBy = "user")
-  private UserProfile profile;
+  private Profile profile;
 
   public String getId() {
     return id;
@@ -46,11 +46,11 @@ public class Users {
     this.email = email;
   }
 
-  public UserProfile getProfile() {
+  public Profile getProfile() {
     return profile;
   }
 
-  public void setProfile(UserProfile profile) {
+  public void setProfile(Profile profile) {
     this.profile = profile;
   }
 }

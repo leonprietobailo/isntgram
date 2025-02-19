@@ -9,7 +9,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 
 @Entity(name = "user_profile")
-public class UserProfile {
+public class Profile {
 
   @Id
   private String userId;
@@ -18,7 +18,7 @@ public class UserProfile {
   @JoinColumn(name = "user_id", nullable = false)
   @MapsId
   @JsonIgnore
-  private Users user;
+  private User user;
 
   @Column
   private String name;
@@ -31,7 +31,7 @@ public class UserProfile {
 
   @Column(nullable = false)
   private Integer followers;
-  
+
   @Column(nullable = false)
   private Integer following;
 
@@ -43,11 +43,11 @@ public class UserProfile {
     this.userId = userId;
   }
 
-  public Users getUser() {
+  public User getUser() {
     return user;
   }
 
-  public void setUser(Users user) {
+  public void setUser(User user) {
     this.user = user;
   }
 

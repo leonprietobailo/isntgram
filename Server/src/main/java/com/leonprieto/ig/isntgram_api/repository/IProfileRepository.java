@@ -1,16 +1,16 @@
 package com.leonprieto.ig.isntgram_api.repository;
 
-import com.leonprieto.ig.isntgram_api.model.UserProfile;
-import com.leonprieto.ig.isntgram_api.model.Users;
+import com.leonprieto.ig.isntgram_api.model.Profile;
+import com.leonprieto.ig.isntgram_api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IProfileRepository extends JpaRepository<UserProfile, Users> {
-  Optional<UserProfile> findByUser(Users user);
+public interface IProfileRepository extends JpaRepository<Profile, User> {
+  Optional<Profile> findByUser(User user);
 
-  List<UserProfile> findByUserIdContainingIgnoreCaseOrNameContainingIgnoreCase(String userId,
+  List<Profile> findByUserIdContainingIgnoreCaseOrNameContainingIgnoreCase(String userId,
       String name);
 
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
-public class Posts {
+public class Post {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class Posts {
   @ManyToOne
   //  @JsonIgnore
   @JoinColumn(name = "user_id", nullable = false)
-  private Users user;
+  private User user;
 
   @Column(nullable = false)
   private Date postedDate;
@@ -36,11 +36,11 @@ public class Posts {
     this.id = id;
   }
 
-  public Users getUser() {
+  public User getUser() {
     return user;
   }
 
-  public void setUser(Users user) {
+  public void setUser(User user) {
     this.user = user;
   }
 

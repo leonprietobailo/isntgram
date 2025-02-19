@@ -1,7 +1,7 @@
 package com.leonprieto.ig.isntgram_api.controller;
 
-import com.leonprieto.ig.isntgram_api.model.Posts;
-import com.leonprieto.ig.isntgram_api.model.UserProfile;
+import com.leonprieto.ig.isntgram_api.model.Post;
+import com.leonprieto.ig.isntgram_api.model.Profile;
 import com.leonprieto.ig.isntgram_api.service.AppService;
 import com.leonprieto.ig.isntgram_api.service.PostService;
 import com.leonprieto.ig.isntgram_api.service.response.GenericApiResponse;
@@ -36,19 +36,19 @@ public class AppController {
   }
 
   @GetMapping("profiles/{userId}")
-  public ResponseEntity<UserProfile> getProfile(@PathVariable String userId) {
-    final Optional<UserProfile> profile = appService.getProfile(userId);
+  public ResponseEntity<Profile> getProfile(@PathVariable String userId) {
+    final Optional<Profile> profile = appService.getProfile(userId);
     return profile.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @PostMapping("profiles/update")
-  public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfile userProfile) {
-    final UserProfile result = appService.updateProfile(userProfile);
+  public ResponseEntity<Profile> updateProfile(@RequestBody Profile userProfile) {
+    final Profile result = appService.updateProfile(userProfile);
     return ResponseEntity.ok(result);
   }
 
   @GetMapping("profiles/search/{query}")
-  public List<UserProfile> getProfilesByQuery(@PathVariable String query) {
+  public List<Profile> getProfilesByQuery(@PathVariable String query) {
     return appService.searchProile(query);
   }
 
@@ -67,7 +67,7 @@ public class AppController {
   }
 
   @GetMapping("profiles/{userId}/posts")
-  public List<Posts> getAllPosts(@PathVariable String userId) {
+  public List<Post> getAllPosts(@PathVariable String userId) {
     return postService.getAllPosts(userId);
   }
 }

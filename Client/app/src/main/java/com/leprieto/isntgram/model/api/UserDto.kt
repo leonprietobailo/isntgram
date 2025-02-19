@@ -4,7 +4,7 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class UserDetails(
+data class UserDto(
     @PrimaryKey val id: String,
     val password: String,
     val email: String?

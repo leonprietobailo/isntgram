@@ -1,6 +1,6 @@
 package com.leonprieto.ig.isntgram_api.controller;
 
-import com.leonprieto.ig.isntgram_api.model.Users;
+import com.leonprieto.ig.isntgram_api.model.User;
 import com.leonprieto.ig.isntgram_api.security.JwtTokenUtil;
 import com.leonprieto.ig.isntgram_api.service.UserService;
 import com.leonprieto.ig.isntgram_api.service.response.GenericApiResponse;
@@ -18,7 +18,7 @@ public class AuthController {
   private UserService userService;
 
   @PostMapping("login")
-  public ResponseEntity<GenericApiResponse> login(@RequestBody Users user) {
+  public ResponseEntity<GenericApiResponse> login(@RequestBody User user) {
     final boolean result = userService.validateLogin(user);
     if (result) {
       final String token = JwtTokenUtil.generateToken(user.getId());
@@ -28,9 +28,9 @@ public class AuthController {
   }
 
   @PostMapping("register")
-  public ResponseEntity<GenericApiResponse> register(@RequestBody Users user) {
+  public ResponseEntity<GenericApiResponse> register(@RequestBody User user) {
     user.setId(user.getId().toLowerCase());
-    final Users users = userService.registerUser(user);
+    final User users = userService.registerUser(user);
     if (users != null) {
       final String token = JwtTokenUtil.generateToken(users.getId());
       return ResponseEntity.ok(new GenericApiResponse(true, token));

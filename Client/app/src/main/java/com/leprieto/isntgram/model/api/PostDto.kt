@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PostDto(
-    val user: UserDetails,
+    val user: UserDto,
 //    val caption: String,
 //    val postedDate: Date?,
     val url: String?
