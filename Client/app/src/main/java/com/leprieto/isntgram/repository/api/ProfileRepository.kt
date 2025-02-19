@@ -1,15 +1,15 @@
 package com.leprieto.isntgram.repository.api
 
-import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.model.api.Profile
 import com.leprieto.isntgram.query.api.ApiService
 import com.leprieto.isntgram.query.api.response.GenericApiResponse
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getProfile(id: String): Result<ProfileDto> {
+    suspend fun getProfile(id: String): Result<Profile> {
         return try {
-            val response: ProfileDto = apiService.getProfile(id)
+            val response: Profile = apiService.getProfile(id)
             Result.success(response)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -17,9 +17,9 @@ class ProfileRepository @Inject constructor(private val apiService: ApiService) 
         }
     }
 
-    suspend fun updateProfile(profileDto: ProfileDto): Result<GenericApiResponse> {
+    suspend fun updateProfile(profile: Profile): Result<GenericApiResponse> {
         return try {
-            val response: GenericApiResponse = apiService.updateProfile(profileDto)
+            val response: GenericApiResponse = apiService.updateProfile(profile)
             Result.success(response)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -27,9 +27,9 @@ class ProfileRepository @Inject constructor(private val apiService: ApiService) 
         }
     }
 
-    suspend fun getProfiles(id: String): Result<List<ProfileDto>> {
+    suspend fun getProfiles(id: String): Result<List<Profile>> {
         return try {
-            val response: List<ProfileDto> = apiService.getProfilesByQuery(id)
+            val response: List<Profile> = apiService.getProfilesByQuery(id)
             Result.success(response)
         } catch (e: Exception) {
             e.printStackTrace()

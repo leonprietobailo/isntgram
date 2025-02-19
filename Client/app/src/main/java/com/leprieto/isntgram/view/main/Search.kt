@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.model.api.Profile
 import com.leprieto.isntgram.viewmodel.states.SearchRequestState
 
 @Composable
@@ -129,18 +129,18 @@ private fun ProfileEntriesSuccessStateComposable(
         items(count = searchRequestState.profiles.size,
             key = { index -> searchRequestState.profiles[index].userId }) { index ->
             val profileDto = searchRequestState.profiles[index]
-            ProfileEntryComposable(profileDto = profileDto, navToProfile = navToProfile)
+            ProfileEntryComposable(profile = profileDto, navToProfile = navToProfile)
         }
     }
 }
 
 @Composable
-private fun ProfileEntryComposable(profileDto: ProfileDto, navToProfile: (String) -> Unit) {
+private fun ProfileEntryComposable(profile: Profile, navToProfile: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { navToProfile("profile/${profileDto.userId}") },
+            .clickable { navToProfile("profile/${profile.userId}") },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -155,9 +155,9 @@ private fun ProfileEntryComposable(profileDto: ProfileDto, navToProfile: (String
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 fontWeight = FontWeight.Bold,
-                text = profileDto.userId
+                text = profile.userId
             )
-            profileDto.name?.let {
+            profile.name?.let {
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp), text = it
                 )
@@ -171,9 +171,9 @@ class SearchBarProvider : PreviewParameterProvider<SearchRequestState> {
     override val values: Sequence<SearchRequestState> = sequenceOf(
         SearchRequestState.Idle, SearchRequestState.Error, SearchRequestState.Success(
             listOf(
-                ProfileDto("omega", "León", "", 0, 0, 0),
-                ProfileDto("alpha", "Foo Bar", "", 0, 0, 0),
-                ProfileDto("beta", null, "", 0, 0, 0),
+                Profile("omega", "León", "", 0, 0, 0),
+                Profile("alpha", "Foo Bar", "", 0, 0, 0),
+                Profile("beta", null, "", 0, 0, 0),
             )
         )
     )

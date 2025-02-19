@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leprieto.isntgram.model.api.PostDto
+import com.leprieto.isntgram.model.api.Post
 import com.leprieto.isntgram.repository.api.PostRepository
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import com.leprieto.isntgram.viewmodel.states.PostsState
@@ -21,10 +21,10 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     var loadedPostsState by mutableStateOf<PostsState>(PostsState.Idle)
         private set
 
-    fun uploadImage(postDto: PostDto, file: File) {
+    fun uploadImage(post: Post, file: File) {
         viewModelScope.launch {
             imagePostedState = GenericRequestState.Loading
-            postRepository.uploadPost(postDto, file)
+            postRepository.uploadPost(post, file)
             imagePostedState = GenericRequestState.Success(null)
         }
     }

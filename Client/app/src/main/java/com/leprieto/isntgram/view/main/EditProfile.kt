@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.model.api.Profile
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import com.leprieto.isntgram.viewmodel.states.ProfileDtoState
 
@@ -38,7 +38,7 @@ fun EditProfileComposable(
     loadedState: ProfileDtoState,
 //    loadProfile: () -> Unit,
     updatedState: GenericRequestState,
-    updateProfile: (ProfileDto) -> Unit,
+    updateProfile: (Profile) -> Unit,
     navigateBack: () -> Unit
 ) {
     when (loadedState) {
@@ -80,7 +80,7 @@ private fun LoadingStateComposable() {
 private fun LoadedStateComposable(
     loadedState: ProfileDtoState.Success,
     updatedState: GenericRequestState,
-    updateProfile: (ProfileDto) -> Unit,
+    updateProfile: (Profile) -> Unit,
     navigateBack: () -> Unit
 ) {
     val context = LocalContext.current

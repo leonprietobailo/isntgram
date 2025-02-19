@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.leprieto.isntgram.ext.toFile
 import com.leprieto.isntgram.ext.toRemote
-import com.leprieto.isntgram.model.api.PostDto
+import com.leprieto.isntgram.model.api.Post
 import com.leprieto.isntgram.model.db.UserDetailsLocal
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 import com.leprieto.isntgram.viewmodel.states.UserDetailsState
@@ -46,7 +46,7 @@ import java.io.File
 fun ImageUploadMainComposable(
     loginState: UserDetailsState.Success,
     imagePostedState: GenericRequestState,
-    uploadPost: (PostDto, File) -> Unit
+    uploadPost: (Post, File) -> Unit
 ) {
     when (imagePostedState) {
         is GenericRequestState.Error -> ImageUploadErrorComposable()
@@ -60,7 +60,7 @@ fun ImageUploadMainComposable(
 @Composable
 fun ImageUploadIdleComposable(
     loginState: UserDetailsState.Success,
-    uploadPost: (PostDto, File) -> Unit
+    uploadPost: (Post, File) -> Unit
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var caption by remember { mutableStateOf("") }
@@ -115,7 +115,7 @@ fun ImageUploadIdleComposable(
             onClick = {
                 imageUri?.let {
                     uploadPost(
-                        PostDto(loginState.userDetailsLocal.toRemote(), null),
+                        Post(loginState.userDetailsLocal.toRemote(), null),
                         it.toFile(current)
                     )
                 }
@@ -167,7 +167,7 @@ fun ImageUploadErrorComposable() {
 @Composable
 fun ImageUploadMainComposableOld(
     imagePostedState: GenericRequestState,
-    uploadPost: (PostDto, File) -> Unit
+    uploadPost: (Post, File) -> Unit
 ) {
 
 }
@@ -180,7 +180,7 @@ private fun ImageUploadMainComposablePreview(@PreviewParameter(UploadPictureProv
     ImageUploadMainComposable(
         loginState = UserDetailsState.Success(UserDetailsLocal("omega", "")),
         imagePostedState = imagePostedState
-    ) { postDto: PostDto, file: File ->
+    ) { post: Post, file: File ->
     }
 }
 

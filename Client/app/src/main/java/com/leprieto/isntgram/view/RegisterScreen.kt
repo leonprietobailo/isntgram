@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.leprieto.isntgram.model.api.UserDto
+import com.leprieto.isntgram.model.api.User
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 
@@ -33,7 +33,7 @@ import com.leprieto.isntgram.viewmodel.states.GenericRequestState
 fun RegisterScreenComposable(
     registerState: GenericRequestState,
     navigate: (String) -> Unit,
-    register: (UserDto) -> Unit,
+    register: (User) -> Unit,
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
@@ -96,7 +96,7 @@ fun RegisterScreenComposable(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
-                register(UserDto(username, password, email))
+                register(User(username, password, email))
             },
             enabled = enableRegister
         ) {

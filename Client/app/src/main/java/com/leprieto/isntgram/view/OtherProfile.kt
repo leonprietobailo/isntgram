@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.leprieto.isntgram.R
-import com.leprieto.isntgram.model.api.UserDto
+import com.leprieto.isntgram.model.api.User
 
 //import com.leprieto.isntgram.viewmodel.RemoteUserViewModel
 
@@ -69,7 +69,7 @@ import com.leprieto.isntgram.model.api.UserDto
 //}
 
 @Composable
-private fun ProfileTopBar(userDto: UserDto) {
+private fun ProfileTopBar(user: User) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -82,7 +82,7 @@ private fun ProfileTopBar(userDto: UserDto) {
             modifier = Modifier.size(32.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
-        Text(userDto.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(user.id, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
@@ -94,7 +94,7 @@ private fun ProfileTopBar(userDto: UserDto) {
 }
 
 @Composable
-private fun Body(userDto: UserDto) {
+private fun Body(user: User) {
     Column(modifier = Modifier.padding(12.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

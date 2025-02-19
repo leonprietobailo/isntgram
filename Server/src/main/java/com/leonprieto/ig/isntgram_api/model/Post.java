@@ -1,5 +1,6 @@
 package com.leonprieto.ig.isntgram_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class Post {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
+  @JsonIgnore
   @Column(nullable = false)
   private Date postedDate;
 

@@ -1,8 +1,8 @@
 package com.leprieto.isntgram.query.api
 
-import com.leprieto.isntgram.model.api.PostDto
-import com.leprieto.isntgram.model.api.ProfileDto
-import com.leprieto.isntgram.model.api.UserDto
+import com.leprieto.isntgram.model.api.Post
+import com.leprieto.isntgram.model.api.Profile
+import com.leprieto.isntgram.model.api.User
 import com.leprieto.isntgram.query.api.response.GenericApiResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -15,22 +15,22 @@ import retrofit2.http.Path
 interface ApiService {
 
     @POST("auth/login")
-    suspend fun login(@Body user: UserDto): GenericApiResponse
+    suspend fun login(@Body user: User): GenericApiResponse
 
     // TODO: Replace with put.
     @POST("auth/register")
-    suspend fun register(@Body userDto: UserDto): GenericApiResponse
+    suspend fun register(@Body user: User): GenericApiResponse
 
     @GET("app/profiles/{userId}")
-    suspend fun getProfile(@Path(value = "userId") id: String): ProfileDto
+    suspend fun getProfile(@Path(value = "userId") id: String): Profile
 
     @POST("app/profiles/update")
     suspend fun updateProfile(
-        @Body profileDto: ProfileDto
+        @Body profile: Profile
     ): GenericApiResponse
 
     @GET("app/profiles/search/{query}")
-    suspend fun getProfilesByQuery(@Path(value = "query") id: String): List<ProfileDto>
+    suspend fun getProfilesByQuery(@Path(value = "query") id: String): List<Profile>
 
     @Multipart
     @POST("app/upload/posts/{userId}")
@@ -40,6 +40,6 @@ interface ApiService {
     ): GenericApiResponse
 
     @GET("app/profiles/{userId}/posts")
-    suspend fun getPosts(@Path("userId") userId: String): List<PostDto>
+    suspend fun getPosts(@Path("userId") userId: String): List<Post>
 
 }

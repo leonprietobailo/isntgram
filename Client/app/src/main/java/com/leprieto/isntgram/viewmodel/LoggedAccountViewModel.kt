@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leprieto.isntgram.model.api.ProfileDto
+import com.leprieto.isntgram.model.api.Profile
 import com.leprieto.isntgram.repository.api.ProfileRepository
 import com.leprieto.isntgram.repository.db.UserDetailsLocalRepository
 import com.leprieto.isntgram.viewmodel.states.GenericRequestState
@@ -45,9 +45,9 @@ class LoggedAccountViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile(profileDto: ProfileDto) {
+    fun updateProfile(profile: Profile) {
         viewModelScope.launch {
-            val result = profileRepository.updateProfile(profileDto)
+            val result = profileRepository.updateProfile(profile)
             selfUpdateState = if (result.isSuccess) {
                 GenericRequestState.Success(result.getOrNull())
             } else {

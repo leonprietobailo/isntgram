@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.leprieto.isntgram.model.api.UserDto
+import com.leprieto.isntgram.model.api.User
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 
@@ -32,7 +32,7 @@ import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 fun LoginScreenComposable(
     loginState: UserDetailsState,
     navigate: (String) -> Unit,
-    login: (UserDto) -> Unit,
+    login: (User) -> Unit,
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
@@ -67,7 +67,7 @@ fun LoginScreenComposable(
             .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
                 login(
-                    UserDto(
+                    User(
                         id = username, password = password, email = null
                     )
                 )
