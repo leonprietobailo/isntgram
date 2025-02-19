@@ -7,8 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity(name = "user_profile")
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Profile {
 
   @Id
@@ -34,60 +40,4 @@ public class Profile {
 
   @Column(nullable = false)
   private Integer following;
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Integer getPosts() {
-    return posts;
-  }
-
-  public void setPosts(Integer posts) {
-    this.posts = posts;
-  }
-
-  public Integer getFollowers() {
-    return followers;
-  }
-
-  public void setFollowers(Integer followers) {
-    this.followers = followers;
-  }
-
-  public Integer getFollowing() {
-    return following;
-  }
-
-  public void setFollowing(Integer following) {
-    this.following = following;
-  }
 }
