@@ -21,10 +21,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.ext.toScreen
-import com.leprieto.isntgram.view.DummyScreenComposable
-import com.leprieto.isntgram.view.LandingScreenComposable
-import com.leprieto.isntgram.view.LoginScreenComposable
-import com.leprieto.isntgram.view.RegisterScreenComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
 import com.leprieto.isntgram.viewmodel.PostViewModel
@@ -42,18 +38,20 @@ fun MainScreenComposable() {
     val currentScreen = currentRoute?.toScreen()
 
     Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
-//            if (currentScreen?.showBottomBar == true) {
-        BottomNavigationBarComposable(navController = mainNavController)
-//            }
+        if (currentScreen?.showBottomBar == true) {
+            BottomNavigationBarComposable(navController = mainNavController)
+        }
     }) { paddingValues: PaddingValues ->
         NavHost(
             navController = mainNavController,
             startDestination = Screen.Profile.route,
             modifier = Modifier.padding(paddingValues)
         ) {
+            // Landing
             composable(Screen.Landing.route) {
                 LandingScreenComposable(mainNavController::navigate)
             }
+            // Auth
             composable(Screen.Register.route) {
                 RegisterScreenComposable(
                     userDetailsViewModel.registerState,
@@ -68,8 +66,7 @@ fun MainScreenComposable() {
                     userDetailsViewModel::login
                 )
             }
-
-            // LOGIN REQUIRED SCREENS
+            // App
             composable(Screen.Home.route) {
                 DummyScreenComposable()
             }

@@ -1,4 +1,4 @@
-package com.leprieto.isntgram.view
+package com.leprieto.isntgram.view.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
 
 @Composable
@@ -46,5 +45,5 @@ fun LandingScreenComposable(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LandingScreenComposablePreview() {
-    LandingScreenComposable( navigate = {})
+    LandingScreenComposable(navigate = {})
 }

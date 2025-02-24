@@ -1,6 +1,5 @@
-package com.leprieto.isntgram.view
+package com.leprieto.isntgram.view.main
 
-import android.util.Patterns
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,32 +22,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leprieto.isntgram.model.api.User
 import com.leprieto.isntgram.view.enums.NavigationControllerValues
-import com.leprieto.isntgram.viewmodel.states.GenericRequestState
+import com.leprieto.isntgram.viewmodel.states.UserDetailsState
+
 
 @Composable
-fun RegisterScreenComposable(
-    registerState: GenericRequestState,
+fun LoginScreenComposable(
+    loginState: UserDetailsState,
     navigate: (String) -> Unit,
-    register: (User) -> Unit,
+    login: (User) -> Unit,
     modifier: Modifier = Modifier.padding(12.dp)
 ) {
     var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-
-    val usernameError = username.length < 3
-    val emailError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    val passwordError = confirmPassword.isNotEmpty() && password != confirmPassword
-    val enableRegister =
-        username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && !usernameError && !emailError && !passwordError
-    LaunchedEffect(key1 = registerState) {
-        if (registerState is GenericRequestState.Success) {
-            navigate(NavigationControllerValues.LOGIN.name)
+    LaunchedEffect(key1 = loginState) {
+        if (loginState is UserDetailsState.Success) {
+            navigate(NavigationControllerValues.MAIN.screen)
         }
     }
     Column(
@@ -66,53 +57,33 @@ fun RegisterScreenComposable(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 4.dp),
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = "Email") },
-            isError = emailError
-        )
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 4.dp),
             value = password,
             onValueChange = { password = it },
             label = { Text(text = "Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            isError = passwordError
+            visualTransformation = PasswordVisualTransformation()
         )
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 4.dp),
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            label = { Text(text = "Confirm Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            isError = passwordError
-        )
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 4.dp),
+        Button(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 4.dp),
             onClick = {
-                register(User(username, password, email))
-            },
-            enabled = enableRegister
-        ) {
-
+                login(
+                    User(
+                        id = username, password = password, email = null
+                    )
+                )
+            }) {
             Box(
                 modifier = Modifier.height(24.dp), contentAlignment = Alignment.Center
             ) {
-                when (registerState) {
-                    is GenericRequestState.Error, GenericRequestState.Idle -> Text(text = "Register")
-                    GenericRequestState.Loading -> CircularProgressIndicator(
+                when (loginState) {
+                    is UserDetailsState.Error, UserDetailsState.Idle -> Text(text = "Login")
+                    UserDetailsState.Loading -> CircularProgressIndicator(
                         modifier = Modifier.size(
                             24.dp
                         ), color = Color.White
                     )
 
-                    is GenericRequestState.Success -> {
+                    is UserDetailsState.Success -> {
                         Text(text = "Success")
                     }
                 }
@@ -121,8 +92,8 @@ fun RegisterScreenComposable(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun RegisterScreenComposablePreview() {
-//    RegisterScreenComposable(navigate = {})
+fun LoginScreenComposablePreview() {
+//    LoginScreenComposable(navigate = {})
 }

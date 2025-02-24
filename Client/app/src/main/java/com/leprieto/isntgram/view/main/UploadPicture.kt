@@ -115,7 +115,7 @@ fun ImageUploadIdleComposable(
             onClick = {
                 imageUri?.let {
                     uploadPost(
-                        Post(loginState.userDetailsLocal.toRemote(), null),
+                        Post(loginState.userDetailsLocal.toRemote(), caption, null),
                         it.toFile(current)
                     )
                 }
@@ -162,17 +162,9 @@ fun ImageUploadErrorComposable() {
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ImageUploadMainComposableOld(
-    imagePostedState: GenericRequestState,
-    uploadPost: (Post, File) -> Unit
-) {
-
-}
-
-// PREVIEW
+// ******************************
+// *          PREVIEW           *
+// ******************************
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
