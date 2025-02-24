@@ -2,7 +2,9 @@ package com.leprieto.isntgram.view.screen
 
 sealed class Screen(val route: String, val showBottomBar: Boolean) {
     // Auth
-
+    data object Landing : Screen("landing", false)
+    data object Register : Screen("register", false)
+    data object Login : Screen("login", false)
 
     // Main
     data object Home : Screen("home", true)

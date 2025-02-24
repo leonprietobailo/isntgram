@@ -22,31 +22,54 @@ import androidx.navigation.compose.rememberNavController
 import com.leprieto.isntgram.R
 import com.leprieto.isntgram.ext.toScreen
 import com.leprieto.isntgram.view.DummyScreenComposable
+import com.leprieto.isntgram.view.LandingScreenComposable
+import com.leprieto.isntgram.view.LoginScreenComposable
+import com.leprieto.isntgram.view.RegisterScreenComposable
 import com.leprieto.isntgram.view.screen.Screen
 import com.leprieto.isntgram.viewmodel.LoggedAccountViewModel
 import com.leprieto.isntgram.viewmodel.PostViewModel
 import com.leprieto.isntgram.viewmodel.ProfileViewModel
+import com.leprieto.isntgram.viewmodel.UserDetailsViewModel
 import com.leprieto.isntgram.viewmodel.states.UserDetailsState
 
 
 @Composable
-fun MainScreenComposable(loginState: UserDetailsState.Success) {
+fun MainScreenComposable() {
     val mainNavController = rememberNavController()
     val navBackStackEntry = mainNavController.currentBackStackEntry
     val currentRoute = navBackStackEntry?.destination?.route
+    val userDetailsViewModel: UserDetailsViewModel = hiltViewModel()
     val currentScreen = currentRoute?.toScreen()
 
-    Scaffold(modifier = Modifier.fillMaxSize(),
-        bottomBar = {
+    Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
 //            if (currentScreen?.showBottomBar == true) {
-            BottomNavigationBarComposable(navController = mainNavController)
+        BottomNavigationBarComposable(navController = mainNavController)
 //            }
-        }) { paddingValues: PaddingValues ->
+    }) { paddingValues: PaddingValues ->
         NavHost(
             navController = mainNavController,
             startDestination = Screen.Profile.route,
             modifier = Modifier.padding(paddingValues)
         ) {
+            composable(Screen.Landing.route) {
+                LandingScreenComposable(mainNavController::navigate)
+            }
+            composable(Screen.Register.route) {
+                RegisterScreenComposable(
+                    userDetailsViewModel.registerState,
+                    mainNavController::navigate,
+                    userDetailsViewModel::register
+                )
+            }
+            composable(Screen.Login.route) {
+                LoginScreenComposable(
+                    userDetailsViewModel.loginState,
+                    mainNavController::navigate,
+                    userDetailsViewModel::login
+                )
+            }
+
+            // LOGIN REQUIRED SCREENS
             composable(Screen.Home.route) {
                 DummyScreenComposable()
             }
@@ -61,7 +84,7 @@ fun MainScreenComposable(loginState: UserDetailsState.Success) {
             composable(Screen.Add.route) {
                 val postViewModel: PostViewModel = hiltViewModel()
                 ImageUploadMainComposable(
-                    loginState,
+                    userDetailsViewModel.loginState as UserDetailsState.Success,
                     postViewModel.imagePostedState,
                     postViewModel::uploadImage
                 )
@@ -74,7 +97,7 @@ fun MainScreenComposable(loginState: UserDetailsState.Success) {
                 val postViewModel: PostViewModel = hiltViewModel()
                 LaunchedEffect(key1 = Unit) {
                     loggedAccountViewModel.loadProfile()
-                    postViewModel.getPosts(loginState.userDetailsLocal.id)
+                    postViewModel.getPosts((userDetailsViewModel.loginState as UserDetailsState.Success).userDetailsLocal.id)
                 }
                 SelfProfileMainComposable(
                     loadedState = loggedAccountViewModel.selfLoadState,
@@ -91,10 +114,8 @@ fun MainScreenComposable(loginState: UserDetailsState.Success) {
                     LaunchedEffect(key1 = Unit) {
                         profileViewModel.loadProfile(it)
                     }
-                    OtherProfileMainComposable(
-                        loadedState = profileViewModel.loadProfileState,
-                        loadProfile = { (profileViewModel::loadProfile)(it) }
-                    )
+                    OtherProfileMainComposable(loadedState = profileViewModel.loadProfileState,
+                        loadProfile = { (profileViewModel::loadProfile)(it) })
                 }
 
             }

@@ -22,6 +22,7 @@ public class Post {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonIgnore
   private Long id;
 
   @ManyToOne
@@ -29,14 +30,14 @@ public class Post {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
+  @Column(nullable = false)
+  private String caption;
+
   @JsonIgnore
   @Column(nullable = false)
   private Date postedDate;
 
   @Column(nullable = false)
   private String url;
-
-  @Column(nullable = false)
-  private String caption;
-
+  
 }
